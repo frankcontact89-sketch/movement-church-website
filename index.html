@@ -1,100 +1,505 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Global Movement Church USA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movement Church</title>
+
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #071f36, #0b3458);
-      color: white;
-      text-align: center;
+    :root{
+      --navy:#0b3556;
+      --navy-dark:#041426;
+      --white:#ffffff;
+      --gray:#d7dee8;
+      --text:#0b1b2f;
+      --line:rgba(255,255,255,.18);
     }
-    header {
-      padding: 28px 20px;
+
+    *{box-sizing:border-box}
+
+    html{
+      scroll-behavior:smooth;
     }
-    .logo {
-      width: 180px;
-      max-width: 80%;
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--navy-dark);
+      color:var(--white);
     }
-    .hero {
-      min-height: 75vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 22px;
+
+    a{
+      text-decoration:none;
+      color:inherit;
     }
-    .badge {
-      border: 1px solid rgba(255,255,255,.35);
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 14px;
-      letter-spacing: 2px;
-      margin-bottom: 24px;
+
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      z-index:20;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 7vw;
+      background:rgba(4,20,38,.78);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.08);
     }
-    h1 {
-      font-size: clamp(42px, 10vw, 92px);
-      line-height: 1;
-      margin: 0;
+
+    .logo-wrap{
+      display:flex;
+      align-items:center;
+      gap:14px;
     }
-    p {
-      max-width: 720px;
-      font-size: 18px;
-      line-height: 1.7;
-      color: rgba(255,255,255,.82);
+
+    .logo-wrap img{
+      width:68px;
+      height:68px;
+      object-fit:cover;
+      border-radius:10px;
     }
-    .buttons {
-      margin-top: 28px;
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      justify-content: center;
+
+    .brand-text{
+      font-weight:800;
+      font-size:15px;
+      line-height:1.1;
+      letter-spacing:.02em;
     }
-    a {
-      color: white;
-      text-decoration: none;
+
+    nav{
+      display:flex;
+      align-items:center;
+      gap:30px;
+      font-size:14px;
+      font-weight:600;
     }
-    .btn {
-      padding: 15px 24px;
-      border-radius: 999px;
-      font-weight: bold;
-      border: 1px solid rgba(255,255,255,.35);
+
+    nav a:hover{
+      border-bottom:1px solid white;
     }
-    .btn.primary {
-      background: #35bfff;
-      color: #061b2e;
-      border: none;
+
+    .nav-btn{
+      padding:13px 20px;
+      background:white;
+      color:var(--navy-dark);
+      border-radius:4px;
+      font-weight:800;
     }
-    footer {
-      padding: 30px 20px;
-      color: rgba(255,255,255,.6);
-      font-size: 14px;
+
+    .hero{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      padding:160px 7vw 90px;
+      background:
+        linear-gradient(90deg,rgba(4,20,38,.98) 0%,rgba(11,53,86,.92) 48%,rgba(11,53,86,.62) 100%),
+        url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1800&q=80');
+      background-size:cover;
+      background-position:center;
+    }
+
+    .welcome{
+      display:inline-flex;
+      padding:10px 16px;
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:100px;
+      color:#dbeafe;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:34px;
+      background:rgba(255,255,255,.06);
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(58px,9vw,118px);
+      line-height:.88;
+      letter-spacing:-.07em;
+      font-weight:950;
+      text-transform:uppercase;
+    }
+
+    .hero p{
+      max-width:610px;
+      margin:30px 0 40px;
+      color:#e5edf7;
+      font-size:clamp(19px,2vw,27px);
+      line-height:1.45;
+    }
+
+    .actions{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      min-width:165px;
+      height:54px;
+      padding:0 24px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:4px;
+      border:1px solid rgba(255,255,255,.38);
+      font-size:13px;
+      text-transform:uppercase;
+      font-weight:900;
+      letter-spacing:.05em;
+      transition:.25s ease;
+      background:transparent;
+      color:white;
+    }
+
+    .btn.primary{
+      background:white;
+      color:var(--navy-dark);
+      border-color:white;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      opacity:.88;
+    }
+
+    section{
+      padding:95px 7vw;
+    }
+
+    .section-white{
+      background:#f8fafc;
+      color:var(--text);
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0;
+      padding:0;
+    }
+
+    .photo{
+      min-height:520px;
+      background:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80') center/cover;
+    }
+
+    .copy{
+      padding:8vw;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .eyebrow{
+      color:#1d4ed8;
+      font-size:13px;
+      font-weight:950;
+      letter-spacing:.09em;
+      text-transform:uppercase;
+      margin-bottom:15px;
+    }
+
+    h2{
+      margin:0 0 22px;
+      font-size:clamp(34px,4vw,56px);
+      line-height:1;
+      letter-spacing:-.045em;
+    }
+
+    .copy p,
+    .section-white p{
+      font-size:18px;
+      line-height:1.7;
+      color:#405065;
+      max-width:650px;
+    }
+
+    .mission{
+      background:white;
+      color:var(--text);
+    }
+
+    .mission-cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-top:40px;
+    }
+
+    .card{
+      padding:34px;
+      border:1px solid #e2e8f0;
+      border-radius:14px;
+      background:white;
+    }
+
+    .card h3{
+      margin:0 0 12px;
+      font-size:24px;
+    }
+
+    .dark-section{
+      background:linear-gradient(135deg,var(--navy),var(--navy-dark));
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      align-items:center;
+      gap:60px;
+    }
+
+    .screen{
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:22px;
+      padding:30px;
+      background:rgba(255,255,255,.06);
+      box-shadow:0 30px 80px rgba(0,0,0,.35);
+      text-align:center;
+    }
+
+    .screen img{
+      width:180px;
+      border-radius:18px;
+      margin-bottom:24px;
+    }
+
+    .screen h3{
+      font-size:46px;
+      line-height:1;
+      margin:0;
+    }
+
+    .global{
+      background:#f8fafc;
+      color:var(--text);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+      align-items:center;
+    }
+
+    .map{
+      min-height:320px;
+      border-radius:22px;
+      background:
+        radial-gradient(circle at 18% 40%,#0b3556 0 5px,transparent 6px),
+        radial-gradient(circle at 48% 32%,#0b3556 0 5px,transparent 6px),
+        radial-gradient(circle at 62% 56%,#0b3556 0 5px,transparent 6px),
+        radial-gradient(circle at 76% 44%,#0b3556 0 5px,transparent 6px),
+        linear-gradient(135deg,#eef2f7,#fff);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#cbd5e1;
+      font-size:80px;
+      font-weight:950;
+    }
+
+    .contact{
+      background:linear-gradient(135deg,var(--navy-dark),var(--navy));
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:60px;
+    }
+
+    input,
+    textarea{
+      width:100%;
+      padding:18px;
+      margin-bottom:14px;
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(255,255,255,.06);
+      color:white;
+      font-size:15px;
+      outline:none;
+    }
+
+    textarea{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    footer{
+      padding:34px 7vw;
+      border-top:1px solid rgba(255,255,255,.12);
+      background:#03101f;
+      color:#aab7c8;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      font-size:13px;
+    }
+
+    @media(max-width:850px){
+      header{
+        padding:16px 5vw;
+      }
+
+      nav{
+        display:none;
+      }
+
+      .logo-wrap img{
+        width:56px;
+        height:56px;
+      }
+
+      .hero{
+        padding:140px 5vw 80px;
+      }
+
+      .grid-2,
+      .dark-section,
+      .global,
+      .contact{
+        grid-template-columns:1fr;
+      }
+
+      .photo{
+        min-height:330px;
+      }
+
+      .copy,
+      section{
+        padding:70px 5vw;
+      }
+
+      .mission-cards{
+        grid-template-columns:1fr;
+      }
+
+      footer{
+        display:block;
+        line-height:2;
+      }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <img src="logo.jpg" alt="Movement Church Logo" class="logo" />
-  </header>
 
-  <main class="hero">
-    <div class="badge">WELCOME HOME</div>
-    <h1>Global Movement<br>Church USA</h1>
-    <p>
-      A global online church family centered on Jesus Christ, prayer,
-      discipleship, worship, and the expansion of God’s Kingdom among the nations.
-    </p>
-    <div class="buttons">
-      <a class="btn primary" href="#">Join Online</a>
-      <a class="btn" href="#">Watch Live</a>
+<header>
+  <a class="logo-wrap" href="#home">
+    <img src="Logo.jpg" alt="Movement Church Logo">
+    <div class="brand-text">MOVEMENT<br>CHURCH</div>
+  </a>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#ministries">Ministries</a>
+    <a href="#contact">Contact</a>
+    <a class="nav-btn" href="#services">Watch Online</a>
+  </nav>
+</header>
+
+<main id="home" class="hero">
+  <div class="hero-content">
+    <div class="welcome">Welcome Home</div>
+    <h1>Movement<br>Church</h1>
+    <p>A global family moving by faith, love, and the power of the Holy Spirit.</p>
+
+    <div class="actions">
+      <a class="btn primary" href="#services">Watch Online</a>
+      <a class="btn" href="#contact">Connect With Us</a>
     </div>
-  </main>
+  </div>
+</main>
 
-  <footer>
-    © 2026 Global Movement Church USA. All rights reserved.
-  </footer>
+<section id="about" class="section-white grid-2">
+  <div class="photo"></div>
+
+  <div class="copy">
+    <div class="eyebrow">About The Church</div>
+    <h2>A Church For Everyone, Everywhere.</h2>
+    <p>
+      Movement Church is a place where people can encounter God, grow in faith,
+      discover purpose, and make a difference.
+    </p>
+    <p>
+      <a class="btn primary" style="background:#0b3556;color:white;border-color:#0b3556" href="#contact">Learn More</a>
+    </p>
+  </div>
+</section>
+
+<section id="ministries" class="mission">
+  <div class="eyebrow">Our Mission</div>
+  <h2>To Build A Global Community That Reflects Christ.</h2>
+  <p>
+    We exist to love God, love people, and make disciples — locally and globally.
+  </p>
+
+  <div class="mission-cards">
+    <div class="card">
+      <h3>Faith</h3>
+      <p>Helping people grow in Christ and walk by faith every day.</p>
+    </div>
+
+    <div class="card">
+      <h3>Family</h3>
+      <p>Building a spiritual family where everyone can belong.</p>
+    </div>
+
+    <div class="card">
+      <h3>Mission</h3>
+      <p>Serving our cities and reaching the nations with the Gospel.</p>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="dark-section">
+  <div>
+    <div class="eyebrow">Online Services</div>
+    <h2>Worship With Us From Anywhere.</h2>
+    <p style="color:#d7dee8;font-size:18px;line-height:1.7;max-width:600px">
+      Join us live every week and experience worship, prayer, and life-giving messages.
+    </p>
+    <a class="btn primary" href="#">Watch Online</a>
+  </div>
+
+  <div class="screen">
+    <img src="Logo.jpg" alt="Movement Church Logo">
+    <h3>WELCOME<br>HOME</h3>
+  </div>
+</section>
+
+<section class="global">
+  <div class="map">WORLD</div>
+
+  <div>
+    <div class="eyebrow">Global Movement</div>
+    <h2>One Church.<br>Many Nations.</h2>
+    <p>
+      We are a global family committed to taking the love of Jesus to our cities
+      and to the nations.
+    </p>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div>
+    <div class="eyebrow">Let’s Connect</div>
+    <h2>We’d Love To Hear From You.</h2>
+    <p style="color:#d7dee8;font-size:18px;line-height:1.7;max-width:560px">
+      Whether you have a question or want to get involved, we’re here for you.
+    </p>
+  </div>
+
+  <form onsubmit="event.preventDefault(); alert('Demo: form button works.');">
+    <input placeholder="Your Name">
+    <input placeholder="Your Email">
+    <textarea placeholder="Your Message"></textarea>
+    <button class="btn primary" type="submit">Send Message</button>
+  </form>
+</section>
+
+<footer>
+  <div>Movement Church</div>
+  <div>© 2026 Movement Church. Demo website.</div>
+</footer>
+
 </body>
 </html>
