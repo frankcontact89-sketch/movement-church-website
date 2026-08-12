@@ -1,0 +1,38 @@
+name: Add subscription UI
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch public and admin pages
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          if 'subscribe-widget.js' not in s:
+              s=s.replace('</body>','<script src="/subscribe-widget.js?v=1" defer></script></body>')
+          if 'href="#subscribe"' not in s:
+              s=s.replace('<a href="#give" data-t="giveNav">Give</a></nav>','<a href="#give" data-t="giveNav">Give</a><a href="#subscribe">Stay Connected</a></nav>',1)
+              s=s.replace('<a href="#give" data-t="giveNav">Give</a></nav><main>','<a href="#give" data-t="giveNav">Give</a><a href="#subscribe">Stay Connected</a></nav><main>',1)
+          p.write_text(s)
+          a=Path('admin.html')
+          t=a.read_text()
+          if '/subscribers.html' not in t:
+              t=t.replace('<a class="btn secondary" href="/">View website</a>','<a class="btn secondary" href="/subscribers.html">Subscribers</a> <a class="btn secondary" href="/">View website</a>',1)
+          a.write_text(t)
+          PY
+      - name: Commit generated wiring
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html admin.html
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Connect Movement Church email subscriptions"
+          git push
