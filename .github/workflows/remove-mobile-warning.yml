@@ -1,0 +1,38 @@
+name: Fix Movement Church mobile LIVE
+
+on:
+  push:
+    paths:
+      - '.github/workflows/remove-mobile-warning.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove mobile warning and allow embedded Zoom
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text()
+          old = "async function startMeeting(name){if(innerWidth<621){alert(lang==='pt'?'Para a melhor experiência no celular, use “Abrir no Zoom”.':lang==='es'?'Para una mejor experiencia móvil, usa “Abrir en Zoom”.':'For the best mobile experience, use “Open in Zoom”.');return}try{"
+          new = "async function startMeeting(name){try{"
+          if old not in s:
+              raise SystemExit('Mobile warning block not found')
+          s = s.replace(old, new, 1)
+          s = s.replace('.grid{grid-template-columns:1fr}.btn{width:100%}.zoom-stage{display:none!important}', '.grid{grid-template-columns:1fr}.btn{width:100%}', 1)
+          s = s.replace('<script src="/subscribe-widget.js?v=1" defer></script>', '<script src="/movement-church-website/subscribe-widget.js?v=2" defer></script>', 1)
+          p.write_text(s)
+          PY
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Remove mobile Zoom warning"
+          git push
