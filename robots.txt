@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /subscribers.html
+
+Sitemap: https://movementchurchglobal.org/sitemap.xml
