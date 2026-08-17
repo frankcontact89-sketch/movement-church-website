@@ -8,6 +8,12 @@
     pt:{select:'Selecionar forma de pagamento',hide:'Ocultar formas de pagamento',card:'Cartão / Stripe'}
   };
 
+  const fallbackTranslations={
+    en:{aboutNav:'About',liveNav:'LIVE',sermonsNav:'Sermons',mediaNav:'Media',eventsNav:'Events',giveNav:'Give',liveNow:'LIVE CHURCH',joinLive:'Join LIVE',learnMore:'Learn more',aboutTitle:'A church in movement.',joinChurch:'Join church from anywhere.',giveTitle:'Tithes & Offerings',giveText:'Trust God with your finances by giving your first 10% back to Him.',footerText:'Encounter God. Grow in faith. Live on mission.'},
+    es:{aboutNav:'Nosotros',liveNav:'EN VIVO',sermonsNav:'Predicaciones',mediaNav:'Multimedia',eventsNav:'Eventos',giveNav:'Ofrendar',liveNow:'IGLESIA EN VIVO',joinLive:'Entrar EN VIVO',learnMore:'Conocer más',aboutTitle:'Una iglesia en movimiento.',joinChurch:'Únete a la iglesia desde cualquier lugar.',giveTitle:'Diezmos y Ofrendas',giveText:'Confía en Dios con tus finanzas dando a Él el primer 10%.',footerText:'Encuentra a Dios. Crece en la fe. Vive en misión.'},
+    pt:{aboutNav:'Sobre',liveNav:'AO VIVO',sermonsNav:'Pregações',mediaNav:'Mídia',eventsNav:'Eventos',giveNav:'Ofertar',liveNow:'IGREJA AO VIVO',joinLive:'Entrar AO VIVO',learnMore:'Saiba mais',aboutTitle:'Uma igreja em movimento.',joinChurch:'Participe da igreja de qualquer lugar.',giveTitle:'Dízimos e Ofertas',giveText:'Confie em Deus com suas finanças, devolvendo a Ele os primeiros 10%.',footerText:'Encontre Deus. Cresça na fé. Viva em missão.'}
+  };
+
   const style=document.createElement('style');
   style.textContent=`
     #givingGrid{display:none}
@@ -29,6 +35,51 @@
   function getLang(){
     const stored=localStorage.getItem('movementLanguage');
     return stored==='es'||stored==='pt'?stored:'en';
+  }
+
+  function installNavigationFallback(){
+    const menu=document.getElementById('menu');
+    const mobile=document.getElementById('mobile');
+
+    if(menu&&mobile&&!menu.dataset.fallbackReady){
+      menu.dataset.fallbackReady='1';
+      menu.addEventListener('click',function(e){
+        e.preventDefault();
+        mobile.classList.toggle('open');
+        document.body.classList.toggle('menu-open',mobile.classList.contains('open'));
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      if(a.dataset.scrollFallbackReady)return;
+      a.dataset.scrollFallbackReady='1';
+      a.addEventListener('click',function(e){
+        const href=a.getAttribute('href');
+        if(!href||href==='#')return;
+        const target=document.querySelector(href);
+        if(!target)return;
+        e.preventDefault();
+        target.scrollIntoView({behavior:'smooth',block:'start'});
+        if(mobile)mobile.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        try{history.replaceState(null,'',href)}catch(_){ }
+      });
+    });
+
+    const langSelect=document.getElementById('lang');
+    if(langSelect&&!langSelect.dataset.fallbackReady){
+      langSelect.dataset.fallbackReady='1';
+      langSelect.addEventListener('change',function(){
+        const selected=langSelect.value==='es'||langSelect.value==='pt'?langSelect.value:'en';
+        localStorage.setItem('movementLanguage',selected);
+        document.documentElement.lang=selected==='pt'?'pt-BR':selected;
+        const words=fallbackTranslations[selected]||fallbackTranslations.en;
+        document.querySelectorAll('[data-t]').forEach(function(el){
+          const key=el.getAttribute('data-t');
+          if(words[key])el.textContent=words[key];
+        });
+      });
+    }
   }
 
   function enhanceGiving(){
@@ -70,11 +121,14 @@
   }
 
   function boot(){
-    if(enhanceGiving())return;
+    installNavigationFallback();
+    enhanceGiving();
     let attempts=0;
     const timer=setInterval(()=>{
       attempts++;
-      if(enhanceGiving()||attempts>30)clearInterval(timer);
+      installNavigationFallback();
+      enhanceGiving();
+      if(attempts>40)clearInterval(timer);
     },250);
   }
 
