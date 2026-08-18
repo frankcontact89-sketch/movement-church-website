@@ -2,14 +2,16 @@
 'use strict';
 
 const LANG_TO_BIBLE={en:'kjv',es:'rvr',pt:'aa'};
+const BIBLE_TO_LANG={kjv:'en',rvr:'es',aa:'pt'};
 const labels={
- en:{save:'Save preferences',saved:'Saved',live:'LIVE',bible:'Bible',messages:'Messages',gatherings:'Gatherings',give:'Give',church:'Our Church',connect:'Connect'},
- es:{save:'Guardar preferencias',saved:'Guardado',live:'EN VIVO',bible:'Biblia',messages:'Mensajes',gatherings:'Reuniones',give:'Dar',church:'Nuestra Iglesia',connect:'Conectar'},
- pt:{save:'Salvar preferências',saved:'Salvo',live:'AO VIVO',bible:'Bíblia',messages:'Mensagens',gatherings:'Encontros',give:'Contribuir',church:'Nossa Igreja',connect:'Conectar'}
+ en:{save:'Save preferences',saved:'Saved',live:'LIVE',bible:'Bible',messages:'Messages',gatherings:'Gatherings',give:'Give',church:'Our Church',connect:'Connect',chapter:'Chapter',lead:'Read a passage while the sermon keeps playing.',placeholder:'Example: John 3:16',go:'Go',listen:'Listen',note:'Bible version and chapter labels follow your selected language.'},
+ es:{save:'Guardar preferencias',saved:'Guardado',live:'EN VIVO',bible:'Biblia',messages:'Mensajes',gatherings:'Reuniones',give:'Dar',church:'Nuestra Iglesia',connect:'Conectar',chapter:'Capítulo',lead:'Lee un pasaje mientras la predicación continúa reproduciéndose.',placeholder:'Ejemplo: Juan 3:16',go:'Ir',listen:'Escuchar',note:'La Biblia y los capítulos siguen el idioma seleccionado.'},
+ pt:{save:'Salvar preferências',saved:'Salvo',live:'AO VIVO',bible:'Bíblia',messages:'Mensagens',gatherings:'Encontros',give:'Contribuir',church:'Nossa Igreja',connect:'Conectar',chapter:'Capítulo',lead:'Leia uma passagem enquanto a pregação continua tocando.',placeholder:'Exemplo: João 3:16',go:'Ir',listen:'Ouvir',note:'A Bíblia e os capítulos seguem o idioma selecionado.'}
 };
 
-function lang(){return document.getElementById('lang')?.value||localStorage.getItem('movement_lang')||'en'}
-function L(){return labels[lang()]||labels.en}
+function siteLang(){return document.getElementById('lang')?.value||localStorage.getItem('movement_lang')||'en'}
+function bibleLang(){const tr=document.getElementById('mcTranslation');return BIBLE_TO_LANG[tr?.value]||siteLang()}
+function L(l){return labels[l||siteLang()]||labels.en}
 
 function addStyles(){
  if(document.getElementById('mcEnhanceStyles'))return;
@@ -32,58 +34,63 @@ function updateQuickLabels(){const l=L();document.querySelectorAll('#mcQuick [da
 function installAdminShortcut(){
  const brand=document.querySelector('.brand');const logo=brand?.querySelector('img');if(!brand||brand.dataset.adminReady)return;brand.dataset.adminReady='1';
  let taps=0,timer=0;
- function hit(e){e.preventDefault();e.stopPropagation();taps++;clearTimeout(timer);timer=setTimeout(()=>{taps=0},6000);if(taps===7){showHint('3 more taps for Administration');}if(taps>=10){taps=0;window.location.href='/admin.html';}}
+ function hit(e){e.preventDefault();e.stopPropagation();taps++;clearTimeout(timer);timer=setTimeout(()=>{taps=0},6000);if(taps===7)showHint('3 more taps for Administration');if(taps>=10){taps=0;window.location.href='/admin.html'}}
  brand.addEventListener('click',hit,true);
- if(logo)logo.addEventListener('touchend',function(e){e.preventDefault();hit(e)}, {passive:false});
+ if(logo)logo.addEventListener('touchend',function(e){e.preventDefault();hit(e)},{passive:false});
 }
 function showHint(msg){const d=document.createElement('div');d.className='mc-admin-hint';d.textContent=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),1400)}
 
 function addSaveButton(){
- const actions=document.querySelector('.actions');const sel=document.getElementById('lang');if(!actions||!sel||document.getElementById('mcSavePrefs'))return;
+ const actions=document.querySelector('.actions'),sel=document.getElementById('lang');if(!actions||!sel||document.getElementById('mcSavePrefs'))return;
  const b=document.createElement('button');b.id='mcSavePrefs';b.className='mc-pref-save';b.type='button';b.textContent=L().save;b.onclick=savePreferences;actions.insertBefore(b,actions.querySelector('.menu')||null);
 }
-
 function savePreferences(){
- const l=lang();localStorage.setItem('movement_lang',l);
+ localStorage.setItem('movement_lang',siteLang());
  const tr=document.getElementById('mcTranslation');if(tr)localStorage.setItem('movement_bible_translation',tr.value);
  const book=document.getElementById('mcBook');if(book)localStorage.setItem('movement_bible_book',book.value);
  const ch=document.getElementById('mcChapter');if(ch)localStorage.setItem('movement_bible_chapter',ch.value);
  const b=document.getElementById('mcSavePrefs');if(b){b.textContent=L().saved;b.classList.add('saved');setTimeout(()=>{b.textContent=L().save;b.classList.remove('saved')},1400)}
 }
 
-function syncBibleToSiteLanguage(force){
+function translateBibleControls(){
+ const bl=bibleLang(),l=L(bl);
+ document.querySelectorAll('[data-mc="bibleTop"],[data-mc="bibleEyebrow"],[data-mc="bibleTitle"]').forEach(x=>x.textContent=l.bible);
+ document.querySelectorAll('[data-mc="bibleLead"]').forEach(x=>x.textContent=l.lead);
+ const q=document.getElementById('mcBibleSearch');if(q)q.placeholder=l.placeholder;
+ const g=document.getElementById('mcBibleGo');if(g)g.textContent=l.go;
+ const a=document.getElementById('mcBibleAudio');if(a&&!window.speechSynthesis?.speaking)a.textContent='▶ '+l.listen;
+ const ch=document.getElementById('mcChapter');if(ch){[...ch.options].forEach((o,i)=>o.textContent=l.chapter+' '+(i+1));}
+ let note=document.querySelector('.mc-bible-pref-note');if(!note){note=document.createElement('div');note.className='mc-bible-pref-note';const tools=document.querySelector('.mc-bible-tools');if(tools)tools.insertAdjacentElement('afterend',note)}if(note)note.textContent=l.note;
+ document.documentElement.lang=siteLang();
+}
+
+function forceBibleToSiteLanguage(){
  const tr=document.getElementById('mcTranslation');if(!tr)return false;
- const desired=LANG_TO_BIBLE[lang()]||'kjv';
- const stored=localStorage.getItem('movement_bible_translation');
- const value=force?desired:(stored||desired);
- if(tr.value!==value){tr.value=value;tr.dispatchEvent(new Event('change',{bubbles:true}));}
- localStorage.setItem('movement_bible_translation',value);
- const note=document.querySelector('.mc-bible-pref-note')||document.createElement('div');
- if(!note.classList.contains('mc-bible-pref-note'))note.className='mc-bible-pref-note';
- note.textContent=lang()==='es'?'La Biblia y los capítulos siguen el idioma seleccionado.':lang()==='pt'?'A Bíblia e os capítulos seguem o idioma selecionado.':'Bible version and chapter labels follow your selected language.';
- const tools=document.querySelector('.mc-bible-tools');if(tools&&!note.isConnected)tools.insertAdjacentElement('afterend',note);
- return true;
+ const desired=LANG_TO_BIBLE[siteLang()]||'kjv';
+ localStorage.setItem('movement_bible_translation',desired);
+ if(tr.value!==desired){tr.value=desired;tr.dispatchEvent(new Event('change',{bubbles:true}));}
+ setTimeout(translateBibleControls,80);setTimeout(translateBibleControls,350);return true;
 }
 
 function restoreBiblePosition(){
  const book=document.getElementById('mcBook'),ch=document.getElementById('mcChapter');if(!book||!ch)return;
  const b=localStorage.getItem('movement_bible_book'),c=localStorage.getItem('movement_bible_chapter');
- if(b!==null&&book.querySelector(`option[value="${CSS.escape(b)}"]`)){book.value=b;book.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(()=>{if(c!==null&&ch.querySelector(`option[value="${CSS.escape(c)}"]`)){ch.value=c;ch.dispatchEvent(new Event('change',{bubbles:true}))}},120)}
- book.addEventListener('change',()=>localStorage.setItem('movement_bible_book',book.value));ch.addEventListener('change',()=>localStorage.setItem('movement_bible_chapter',ch.value));
+ if(b!==null&&book.querySelector(`option[value="${CSS.escape(b)}"]`)){book.value=b;book.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(()=>{if(c!==null&&ch.querySelector(`option[value="${CSS.escape(c)}"]`)){ch.value=c;ch.dispatchEvent(new Event('change',{bubbles:true}));translateBibleControls()}},160)}
+ book.addEventListener('change',()=>{localStorage.setItem('movement_bible_book',book.value);setTimeout(translateBibleControls,20)});
+ ch.addEventListener('change',()=>localStorage.setItem('movement_bible_chapter',ch.value));
 }
 
 function wireLanguage(){
  const sel=document.getElementById('lang');if(!sel||sel.dataset.prefReady)return;sel.dataset.prefReady='1';
  const saved=localStorage.getItem('movement_lang');if(saved&&['en','es','pt'].includes(saved)&&sel.value!==saved){sel.value=saved;sel.dispatchEvent(new Event('change',{bubbles:true}));}
- sel.addEventListener('change',()=>{localStorage.setItem('movement_lang',sel.value);updateQuickLabels();const b=document.getElementById('mcSavePrefs');if(b)b.textContent=L().save;setTimeout(()=>syncBibleToSiteLanguage(true),40)});
+ sel.addEventListener('change',()=>{localStorage.setItem('movement_lang',sel.value);updateQuickLabels();const b=document.getElementById('mcSavePrefs');if(b)b.textContent=L().save;setTimeout(forceBibleToSiteLanguage,40)});
 }
-
 function wireBible(){
  const tr=document.getElementById('mcTranslation');if(!tr||tr.dataset.prefReady)return false;tr.dataset.prefReady='1';
- tr.addEventListener('change',()=>localStorage.setItem('movement_bible_translation',tr.value));
- syncBibleToSiteLanguage(false);setTimeout(restoreBiblePosition,450);return true;
+ tr.addEventListener('change',()=>{localStorage.setItem('movement_bible_translation',tr.value);setTimeout(translateBibleControls,30);setTimeout(translateBibleControls,300)});
+ forceBibleToSiteLanguage();setTimeout(restoreBiblePosition,500);return true;
 }
 
-function init(){addStyles();addQuickAccess();installAdminShortcut();addSaveButton();wireLanguage();let tries=0;const timer=setInterval(()=>{tries++;if(wireBible()||tries>40)clearInterval(timer)},150)}
- document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
+function init(){addStyles();addQuickAccess();installAdminShortcut();addSaveButton();wireLanguage();let tries=0;const timer=setInterval(()=>{tries++;if(wireBible()||tries>60)clearInterval(timer)},150)}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
 })();
