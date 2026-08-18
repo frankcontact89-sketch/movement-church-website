@@ -41,5 +41,5 @@ document.querySelectorAll('.method-head').forEach(b=>b.onclick=()=>{const m=b.pa
 document.querySelectorAll('.copy-btn').forEach(b=>b.onclick=async()=>{const s=b.parentElement.querySelector('.copy-status');try{await navigator.clipboard.writeText(b.dataset.copy);s.textContent='✓'}catch{const i=document.createElement('input');i.value=b.dataset.copy;document.body.appendChild(i);i.select();document.execCommand('copy');i.remove();s.textContent='✓'}setTimeout(()=>s.textContent='',1400)});
 })();
 </script>
-</body>
+<script src="/subscribe-widget.js?v=1" defer></script></body>
 </html>
