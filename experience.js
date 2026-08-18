@@ -13,9 +13,9 @@ let currentBooks=null,currentTranslation='kjv',currentBook=0,currentChapter=0;
 let activeMedia=null;
 
 const ui={
- en:{bible:'Bible',bibleTitle:'Bible',bibleLead:'Read a passage while the sermon keeps playing.',translation:'Translation',book:'Book',chapter:'Chapter',search:'Search passage',searchPlaceholder:'Example: John 3:16',go:'Go',listen:'Listen',stop:'Stop',loading:'Loading Bible…',loadError:'The Bible could not be loaded. Please try again.',pip:'Picture in Picture',minimize:'Minimize',expand:'Expand',close:'Close',watch:'Watch sermon',zelle:'Scan the verified Zelle QR code below.',sermon:'Watch sermon'},
- es:{bible:'Biblia',bibleTitle:'Biblia',bibleLead:'Lee un pasaje mientras la predicación continúa reproduciéndose.',translation:'Versión',book:'Libro',chapter:'Capítulo',search:'Buscar pasaje',searchPlaceholder:'Ejemplo: Juan 3:16',go:'Ir',listen:'Escuchar',stop:'Detener',loading:'Cargando Biblia…',loadError:'No se pudo cargar la Biblia. Inténtalo de nuevo.',pip:'Pantalla flotante',minimize:'Minimizar',expand:'Ampliar',close:'Cerrar',watch:'Ver predicación',zelle:'Escanea el código QR verificado de Zelle.',sermon:'Ver predicación'},
- pt:{bible:'Bíblia',bibleTitle:'Bíblia',bibleLead:'Leia uma passagem enquanto a pregação continua tocando.',translation:'Versão',book:'Livro',chapter:'Capítulo',search:'Buscar passagem',searchPlaceholder:'Exemplo: João 3:16',go:'Ir',listen:'Ouvir',stop:'Parar',loading:'Carregando Bíblia…',loadError:'Não foi possível carregar a Bíblia. Tente novamente.',pip:'Tela flutuante',minimize:'Minimizar',expand:'Ampliar',close:'Fechar',watch:'Ver pregação',zelle:'Escaneie o QR Code verificado do Zelle abaixo.',sermon:'Ver pregação'}
+ en:{bible:'Bible',bibleTitle:'Bible',bibleLead:'Read a passage while the sermon keeps playing.',translation:'Translation',book:'Book',chapter:'Chapter',search:'Search passage',searchPlaceholder:'Example: John 3:16',go:'Go',listen:'Listen',stop:'Stop',loading:'Loading Bible…',loadError:'The Bible could not be loaded. Please try again.',pip:'Picture in Picture',minimize:'Minimize',expand:'Expand',close:'Close',watch:'Watch sermon',zelle:'Scan the verified Zelle QR code below.',sermon:'Watch sermon',joinMeeting:'Join meeting',openZoom:'Open in Zoom',liveReady:'The current Movement Church meeting is available below.',liveOffline:'No live meeting is available right now.'},
+ es:{bible:'Biblia',bibleTitle:'Biblia',bibleLead:'Lee un pasaje mientras la predicación continúa reproduciéndose.',translation:'Versión',book:'Libro',chapter:'Capítulo',search:'Buscar pasaje',searchPlaceholder:'Ejemplo: Juan 3:16',go:'Ir',listen:'Escuchar',stop:'Detener',loading:'Cargando Biblia…',loadError:'No se pudo cargar la Biblia. Inténtalo de nuevo.',pip:'Pantalla flotante',minimize:'Minimizar',expand:'Ampliar',close:'Cerrar',watch:'Ver predicación',zelle:'Escanea el código QR verificado de Zelle.',sermon:'Ver predicación',joinMeeting:'Entrar a la reunión',openZoom:'Abrir en Zoom',liveReady:'La reunión actual de Movement Church está disponible abajo.',liveOffline:'No hay una reunión en vivo disponible en este momento.'},
+ pt:{bible:'Bíblia',bibleTitle:'Bíblia',bibleLead:'Leia uma passagem enquanto a pregação continua tocando.',translation:'Versão',book:'Livro',chapter:'Capítulo',search:'Buscar passagem',searchPlaceholder:'Exemplo: João 3:16',go:'Ir',listen:'Ouvir',stop:'Parar',loading:'Carregando Bíblia…',loadError:'Não foi possível carregar a Bíblia. Tente novamente.',pip:'Tela flutuante',minimize:'Minimizar',expand:'Ampliar',close:'Fechar',watch:'Ver pregação',zelle:'Escaneie o QR Code verificado do Zelle abaixo.',sermon:'Ver pregação',joinMeeting:'Entrar na reunião',openZoom:'Abrir no Zoom',liveReady:'A reunião atual da Movement Church está disponível abaixo.',liveOffline:'Não há uma reunião ao vivo disponível neste momento.'}
 };
 function lang(){return document.getElementById('lang')?.value||localStorage.getItem('movement_lang')||'en'}
 function text(k){return (ui[lang()]||ui.en)[k]||ui.en[k]||k}
@@ -42,7 +42,8 @@ function addStyles(){
  .mc-bible-status{color:var(--muted);padding:18px 0}.mc-bible-actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 18px}
  .mc-player{display:none;position:fixed;right:10px;top:max(88px,calc(env(safe-area-inset-top) + 58px));z-index:999;width:min(360px,52vw);background:#02060a;border:1px solid #ffffff28;border-radius:16px;overflow:hidden;box-shadow:0 24px 70px #000a;transition:.2s ease}.mc-player.open{display:block}.mc-player.expanded{width:min(960px,calc(100vw - 20px));right:10px;top:max(82px,calc(env(safe-area-inset-top) + 48px))}.mc-player-head{height:42px;display:flex;align-items:center;gap:7px;padding:0 8px 0 12px;background:#071827}.mc-player-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:850}.mc-player-btn{border:0;background:#ffffff12;color:#fff;border-radius:8px;min-width:32px;height:30px;cursor:pointer;font-size:17px}.mc-player-stage{background:#000;aspect-ratio:16/9}.mc-player-stage video,.mc-player-stage iframe{width:100%;height:100%;display:block;border:0;background:#000}.mc-player.system-pip{display:none!important}
  .mc-sermon-card{position:relative}.mc-watch{display:inline-flex;align-items:center;justify-content:center;margin-top:10px;min-height:42px}.method-body .mc-zelle-qr{width:210px;max-width:100%;display:block;margin:16px 0 4px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;padding:8px}
- @media(max-width:700px){.mc-bible-tools{grid-template-columns:1fr}.mc-search{flex-direction:column}.mc-search button{width:100%}.mc-bible-content{width:calc(100% - 24px);padding-top:18px}.mc-bible-content .lead{font-size:16px}.mc-bible-reader{padding:17px;border-radius:15px}.mc-verse{font-size:19px}.mc-player{width:min(330px,58vw);right:8px;top:max(82px,calc(env(safe-area-inset-top) + 52px))}.mc-player.expanded{width:calc(100vw - 16px);right:8px;top:max(78px,calc(env(safe-area-inset-top) + 48px))}.mc-player-head{height:40px}}
+ .mc-live-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.mc-live-actions a{min-height:50px;padding:0 20px;border-radius:10px;background:var(--blue);color:#fff;font-weight:900;display:inline-flex;align-items:center;justify-content:center}.mc-live-actions a.mc-live-secondary{background:#fff;color:#071827}.mc-live-meta{color:var(--muted);font-size:14px;margin-top:12px}
+ @media(max-width:700px){.mc-bible-tools{grid-template-columns:1fr}.mc-search{flex-direction:column}.mc-search button{width:100%}.mc-bible-content{width:calc(100% - 24px);padding-top:18px}.mc-bible-content .lead{font-size:16px}.mc-bible-reader{padding:17px;border-radius:15px}.mc-verse{font-size:19px}.mc-player{width:min(330px,58vw);right:8px;top:max(82px,calc(env(safe-area-inset-top) + 52px))}.mc-player.expanded{width:calc(100vw - 16px);right:8px;top:max(78px,calc(env(safe-area-inset-top) + 48px))}.mc-player-head{height:40px}.mc-live-actions{display:grid}.mc-live-actions a{width:100%}}
  `;
  document.head.appendChild(st);
 }
@@ -126,6 +127,28 @@ async function loadSermons(){
  }catch(e){console.warn('Sermons unavailable',e)}
 }
 
+async function loadLiveConfig(){
+ const panel=document.querySelector('#live .panel');if(!panel)return;
+ try{
+   const r=await fetch(SB+'/rest/v1/movement_live_config?id=eq.1&select=*',{headers:{apikey:KEY},cache:'no-store'});if(!r.ok)throw new Error('LIVE '+r.status);
+   const rows=await r.json(),cfg=Array.isArray(rows)?rows[0]:null;
+   let box=document.getElementById('mcLiveDynamic');if(!box){box=document.createElement('div');box.id='mcLiveDynamic';panel.appendChild(box)}
+   const oldNotice=panel.querySelector('.notice');
+   if(!cfg||!cfg.zoom_join_url){box.innerHTML='';if(oldNotice)oldNotice.textContent=text('liveOffline');return}
+   if(oldNotice)oldNotice.textContent=text('liveReady');
+   const url=String(cfg.zoom_join_url||'').trim();
+   const website=cfg.website_join_enabled!==false;
+   const zoom=cfg.zoom_join_enabled!==false;
+   let html='<div class="mc-live-actions">';
+   if(website)html+='<a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(text('joinMeeting'))+'</a>';
+   if(zoom)html+='<a class="mc-live-secondary" href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(text('openZoom'))+'</a>';
+   if(!website&&!zoom)html+='<a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(text('joinMeeting'))+'</a>';
+   html+='</div>';
+   if(cfg.meeting_number)html+='<div class="mc-live-meta">Meeting ID: '+esc(cfg.meeting_number)+(cfg.meeting_passcode?' · Passcode: '+esc(cfg.meeting_passcode):'')+'</div>';
+   box.innerHTML=html;
+ }catch(e){console.warn('LIVE settings unavailable',e)}
+}
+
 function installZelleQR(){document.querySelectorAll('.method').forEach(m=>{const label=m.querySelector('.method-head span')?.textContent?.trim().toLowerCase();if(label!=='zelle')return;const body=m.querySelector('.method-body');if(!body)return;body.innerHTML='<p data-mc-zelle>'+esc(text('zelle'))+'</p><img class="mc-zelle-qr" src="zelle-qr.svg?v=1" alt="Zelle verified QR code">'})}
 
 function attachNavigationBehavior(){
@@ -137,8 +160,8 @@ function attachNavigationBehavior(){
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('bible')?.classList.contains('open'))closeBible()});
 }
 function refreshLanguage(){
- addBibleNav();document.querySelectorAll('[data-mc="bibleTop"],[data-mc="bibleEyebrow"],[data-mc="bibleTitle"]').forEach(x=>x.textContent=text('bible'));document.querySelectorAll('[data-mc="bibleLead"]').forEach(x=>x.textContent=text('bibleLead'));document.querySelectorAll('[data-mc-bible]').forEach(x=>x.textContent=text('bible'));document.querySelectorAll('[data-mc-zelle]').forEach(x=>x.textContent=text('zelle'));const q=document.getElementById('mcBibleSearch');if(q)q.placeholder=text('searchPlaceholder');const g=document.getElementById('mcBibleGo');if(g)g.textContent=text('go');const b=document.getElementById('mcBibleAudio');if(b&&!window.speechSynthesis?.speaking)b.textContent='▶ '+text('listen');loadSermons();
+ addBibleNav();document.querySelectorAll('[data-mc="bibleTop"],[data-mc="bibleEyebrow"],[data-mc="bibleTitle"]').forEach(x=>x.textContent=text('bible'));document.querySelectorAll('[data-mc="bibleLead"]').forEach(x=>x.textContent=text('bibleLead'));document.querySelectorAll('[data-mc-bible]').forEach(x=>x.textContent=text('bible'));document.querySelectorAll('[data-mc-zelle]').forEach(x=>x.textContent=text('zelle'));const q=document.getElementById('mcBibleSearch');if(q)q.placeholder=text('searchPlaceholder');const g=document.getElementById('mcBibleGo');if(g)g.textContent=text('go');const b=document.getElementById('mcBibleAudio');if(b&&!window.speechSynthesis?.speaking)b.textContent='▶ '+text('listen');loadSermons();loadLiveConfig();
 }
-function init(){addStyles();addPlayer();addBibleNav();addBibleSection();installZelleQR();attachNavigationBehavior();loadSermons();document.getElementById('lang')?.addEventListener('change',()=>setTimeout(refreshLanguage,0));window.MovementChurchPlayer={open:openMedia,minimize:minimizePlayer,expand:toggleExpand,pictureInPicture:enterSystemPiP,close:closePlayer};window.MovementChurchBible={open:openBible,close:closeBible}}
+function init(){addStyles();addPlayer();addBibleNav();addBibleSection();installZelleQR();attachNavigationBehavior();loadSermons();loadLiveConfig();setInterval(loadLiveConfig,30000);document.getElementById('lang')?.addEventListener('change',()=>setTimeout(refreshLanguage,0));window.MovementChurchPlayer={open:openMedia,minimize:minimizePlayer,expand:toggleExpand,pictureInPicture:enterSystemPiP,close:closePlayer};window.MovementChurchBible={open:openBible,close:closeBible}}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
 })();
