@@ -1,0 +1,1 @@
+(function(){'use strict';var s=document.createElement('script');s.src='/movement-admin.js?v=4';s.defer=true;document.head.appendChild(s);})();
