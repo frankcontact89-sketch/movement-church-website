@@ -12,15 +12,30 @@ const bibleCache={};
 let currentBooks=null,currentTranslation='kjv',currentBook=0,currentChapter=0;
 let activeMedia=null;
 
+const BOOKS={
+ en:['Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth','1 Samuel','2 Samuel','1 Kings','2 Kings','1 Chronicles','2 Chronicles','Ezra','Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes','Song of Solomon','Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos','Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah','Malachi','Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians','2 Corinthians','Galatians','Ephesians','Philippians','Colossians','1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon','Hebrews','James','1 Peter','2 Peter','1 John','2 John','3 John','Jude','Revelation'],
+ es:['Génesis','Éxodo','Levítico','Números','Deuteronomio','Josué','Jueces','Rut','1 Samuel','2 Samuel','1 Reyes','2 Reyes','1 Crónicas','2 Crónicas','Esdras','Nehemías','Ester','Job','Salmos','Proverbios','Eclesiastés','Cantares','Isaías','Jeremías','Lamentaciones','Ezequiel','Daniel','Oseas','Joel','Amós','Abdías','Jonás','Miqueas','Nahúm','Habacuc','Sofonías','Hageo','Zacarías','Malaquías','Mateo','Marcos','Lucas','Juan','Hechos','Romanos','1 Corintios','2 Corintios','Gálatas','Efesios','Filipenses','Colosenses','1 Tesalonicenses','2 Tesalonicenses','1 Timoteo','2 Timoteo','Tito','Filemón','Hebreos','Santiago','1 Pedro','2 Pedro','1 Juan','2 Juan','3 Juan','Judas','Apocalipsis'],
+ pt:['Gênesis','Êxodo','Levítico','Números','Deuteronômio','Josué','Juízes','Rute','1 Samuel','2 Samuel','1 Reis','2 Reis','1 Crônicas','2 Crônicas','Esdras','Neemias','Ester','Jó','Salmos','Provérbios','Eclesiastes','Cânticos','Isaías','Jeremias','Lamentações','Ezequiel','Daniel','Oséias','Joel','Amós','Obadias','Jonas','Miquéias','Naum','Habacuque','Sofonias','Ageu','Zacarias','Malaquias','Mateus','Marcos','Lucas','João','Atos','Romanos','1 Coríntios','2 Coríntios','Gálatas','Efésios','Filipenses','Colossenses','1 Tessalonicenses','2 Tessalonicenses','1 Timóteo','2 Timóteo','Tito','Filemom','Hebreus','Tiago','1 Pedro','2 Pedro','1 João','2 João','3 João','Judas','Apocalipse']
+};
 const ui={
- en:{bible:'Bible',bibleTitle:'Bible',bibleLead:'Read a passage while the sermon keeps playing.',translation:'Translation',book:'Book',chapter:'Chapter',search:'Search passage',searchPlaceholder:'Example: John 3:16',go:'Go',listen:'Listen',stop:'Stop',loading:'Loading Bible…',loadError:'The Bible could not be loaded. Please try again.',pip:'Picture in Picture',minimize:'Minimize',expand:'Expand',close:'Close',watch:'Watch sermon',zelle:'Scan the verified Zelle QR code below.',sermon:'Watch sermon',joinMeeting:'Join meeting',openZoom:'Open in Zoom',liveReady:'The current Movement Church meeting is available below.',liveOffline:'No live meeting is available right now.'},
- es:{bible:'Biblia',bibleTitle:'Biblia',bibleLead:'Lee un pasaje mientras la predicación continúa reproduciéndose.',translation:'Versión',book:'Libro',chapter:'Capítulo',search:'Buscar pasaje',searchPlaceholder:'Ejemplo: Juan 3:16',go:'Ir',listen:'Escuchar',stop:'Detener',loading:'Cargando Biblia…',loadError:'No se pudo cargar la Biblia. Inténtalo de nuevo.',pip:'Pantalla flotante',minimize:'Minimizar',expand:'Ampliar',close:'Cerrar',watch:'Ver predicación',zelle:'Escanea el código QR verificado de Zelle.',sermon:'Ver predicación',joinMeeting:'Entrar a la reunión',openZoom:'Abrir en Zoom',liveReady:'La reunión actual de Movement Church está disponible abajo.',liveOffline:'No hay una reunión en vivo disponible en este momento.'},
- pt:{bible:'Bíblia',bibleTitle:'Bíblia',bibleLead:'Leia uma passagem enquanto a pregação continua tocando.',translation:'Versão',book:'Livro',chapter:'Capítulo',search:'Buscar passagem',searchPlaceholder:'Exemplo: João 3:16',go:'Ir',listen:'Ouvir',stop:'Parar',loading:'Carregando Bíblia…',loadError:'Não foi possível carregar a Bíblia. Tente novamente.',pip:'Tela flutuante',minimize:'Minimizar',expand:'Ampliar',close:'Fechar',watch:'Ver pregação',zelle:'Escaneie o QR Code verificado do Zelle abaixo.',sermon:'Ver pregação',joinMeeting:'Entrar na reunião',openZoom:'Abrir no Zoom',liveReady:'A reunião atual da Movement Church está disponível abaixo.',liveOffline:'Não há uma reunião ao vivo disponível neste momento.'}
+ en:{bible:'Bible',bibleTitle:'Bible',bibleLead:'Read a passage while the sermon keeps playing.',translation:'Translation',book:'Book',chapter:'Chapter',search:'Search passage',searchPlaceholder:'Example: John 3:16',go:'Go',listen:'Listen',stop:'Stop',loading:'Loading Bible…',loadError:'The Bible could not be loaded. Please try again.',notFound:'Passage not found. Try John 3:16.',pip:'Picture in Picture',minimize:'Minimize',expand:'Expand',close:'Close',watch:'Watch sermon',zelle:'Scan the verified Zelle QR code below.',sermon:'Watch sermon',joinMeeting:'Join meeting',openZoom:'Open in Zoom',liveReady:'The current Movement Church meeting is available below.',liveOffline:'No live meeting is available right now.'},
+ es:{bible:'Biblia',bibleTitle:'Biblia',bibleLead:'Lee un pasaje mientras la predicación continúa reproduciéndose.',translation:'Versión',book:'Libro',chapter:'Capítulo',search:'Buscar pasaje',searchPlaceholder:'Ejemplo: Mateo 10 o Juan 3:16',go:'Ir',listen:'Escuchar',stop:'Detener',loading:'Cargando Biblia…',loadError:'No se pudo cargar la Biblia. Inténtalo de nuevo.',notFound:'No encontré ese pasaje. Prueba Mateo 10 o Juan 3:16.',pip:'Pantalla flotante',minimize:'Minimizar',expand:'Ampliar',close:'Cerrar',watch:'Ver predicación',zelle:'Escanea el código QR verificado de Zelle.',sermon:'Ver predicación',joinMeeting:'Entrar a la reunión',openZoom:'Abrir en Zoom',liveReady:'La reunión actual de Movement Church está disponible abajo.',liveOffline:'No hay una reunión en vivo disponible en este momento.'},
+ pt:{bible:'Bíblia',bibleTitle:'Bíblia',bibleLead:'Leia uma passagem enquanto a pregação continua tocando.',translation:'Versão',book:'Livro',chapter:'Capítulo',search:'Buscar passagem',searchPlaceholder:'Exemplo: Mateus 10 ou João 3:16',go:'Ir',listen:'Ouvir',stop:'Parar',loading:'Carregando Bíblia…',loadError:'Não foi possível carregar a Bíblia. Tente novamente.',notFound:'Não encontrei essa passagem. Tente Mateus 10 ou João 3:16.',pip:'Tela flutuante',minimize:'Minimizar',expand:'Ampliar',close:'Fechar',watch:'Ver pregação',zelle:'Escaneie o QR Code verificado do Zelle abaixo.',sermon:'Ver pregação',joinMeeting:'Entrar na reunião',openZoom:'Abrir no Zoom',liveReady:'A reunião atual da Movement Church está disponível abaixo.',liveOffline:'Não há uma reunião ao vivo disponível neste momento.'}
 };
 function lang(){return document.getElementById('lang')?.value||localStorage.getItem('movement_lang')||'en'}
-function text(k){return (ui[lang()]||ui.en)[k]||ui.en[k]||k}
-function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim()}
+function bibleLang(){return currentTranslation==='rvr'?'es':currentTranslation==='aa'?'pt':'en'}
+function text(k,l){return (ui[l||lang()]||ui.en)[k]||ui.en[k]||k}
+function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[.,;]+/g,' ').replace(/\s+/g,' ').trim()}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function localizedBookName(i){return BOOKS[bibleLang()]?.[i]||currentBooks?.[i]?.name||currentBooks?.[i]?.abbrev||('Book '+(i+1))}
+function bookIndexFromName(input){
+ const n=norm(input); if(!n)return -1;
+ for(let i=0;i<66;i++){
+   const aliases=[BOOKS.en[i],BOOKS.es[i],BOOKS.pt[i],currentBooks?.[i]?.name,currentBooks?.[i]?.abbrev].filter(Boolean).map(norm);
+   if(aliases.some(a=>a===n||a.startsWith(n)||n.startsWith(a)))return i;
+ }
+ return -1;
+}
 
 function addStyles(){
  const st=document.createElement('style');
@@ -72,7 +87,7 @@ function addBibleSection(){
  document.getElementById('mcBook').onchange=e=>{currentBook=Number(e.target.value)||0;currentChapter=0;fillChapters();renderChapter()};
  document.getElementById('mcChapter').onchange=e=>{currentChapter=Number(e.target.value)||0;renderChapter()};
  document.getElementById('mcBibleGo').onclick=searchPassage;
- document.getElementById('mcBibleSearch').onkeydown=e=>{if(e.key==='Enter')searchPassage()};
+ document.getElementById('mcBibleSearch').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();searchPassage()}};
  document.getElementById('mcBibleAudio').onclick=toggleAudio;
  loadBible(preferred,false);
 }
@@ -87,17 +102,31 @@ function closeBible(){document.getElementById('bible')?.classList.remove('open')
 
 async function loadBible(code,reset){
  currentTranslation=code;const status=document.getElementById('mcBibleStatus'),reader=document.getElementById('mcBibleReader');
- status.textContent=text('loading');status.style.display='block';reader.style.display='none';window.speechSynthesis?.cancel();
+ status.textContent=text('loading',bibleLang());status.style.display='block';reader.style.display='none';window.speechSynthesis?.cancel();
  try{
    if(!bibleCache[code]){const r=await fetch(BIBLE_SOURCES[code].url,{cache:'force-cache'});if(!r.ok)throw new Error('Bible '+r.status);bibleCache[code]=await r.json()}
    currentBooks=bibleCache[code];if(reset){currentBook=0;currentChapter=0}fillBooks();fillChapters();renderChapter();status.style.display='none';reader.style.display='block';
- }catch(err){console.error(err);status.textContent=text('loadError');status.style.display='block'}
+   const q=document.getElementById('mcBibleSearch');if(q)q.placeholder=text('searchPlaceholder',bibleLang());
+   const g=document.getElementById('mcBibleGo');if(g)g.textContent=text('go',bibleLang());
+   const a=document.getElementById('mcBibleAudio');if(a&&!window.speechSynthesis?.speaking)a.textContent='▶ '+text('listen',bibleLang());
+ }catch(err){console.error(err);status.textContent=text('loadError',bibleLang());status.style.display='block'}
 }
-function fillBooks(){const s=document.getElementById('mcBook');s.innerHTML='';(currentBooks||[]).forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=b.name||b.abbrev||('Book '+(i+1));s.appendChild(o)});currentBook=Math.max(0,Math.min(currentBook,(currentBooks?.length||1)-1));s.value=String(currentBook)}
-function fillChapters(){const s=document.getElementById('mcChapter'),b=currentBooks?.[currentBook];s.innerHTML='';(b?.chapters||[]).forEach((_,i)=>{const o=document.createElement('option');o.value=i;o.textContent=text('chapter')+' '+(i+1);s.appendChild(o)});currentChapter=Math.max(0,Math.min(currentChapter,(b?.chapters?.length||1)-1));s.value=String(currentChapter)}
-function renderChapter(focusVerse){const r=document.getElementById('mcBibleReader'),b=currentBooks?.[currentBook],v=b?.chapters?.[currentChapter]||[];if(!b)return;r.innerHTML='<h3>'+esc(b.name)+' '+(currentChapter+1)+'</h3>'+v.map((x,i)=>'<p class="mc-verse" id="mc-v'+(i+1)+'"><sup>'+(i+1)+'</sup>'+esc(x)+'</p>').join('');r.style.display='block';if(focusVerse)setTimeout(()=>document.getElementById('mc-v'+focusVerse)?.scrollIntoView({block:'center',behavior:'smooth'}),80)}
-function searchPassage(){if(!currentBooks)return;const raw=document.getElementById('mcBibleSearch').value.trim();const m=raw.match(/^(.*?)[\s.]+(\d+)(?::(\d+))?\s*$/);if(!m)return;const name=norm(m[1]),ch=Math.max(1,Number(m[2])),vs=m[3]?Math.max(1,Number(m[3])):null;let idx=currentBooks.findIndex(b=>[b.name,b.abbrev].map(norm).some(x=>x===name||x.startsWith(name)||name.startsWith(x)));if(idx<0)return;currentBook=idx;currentChapter=Math.min(ch-1,(currentBooks[idx].chapters?.length||1)-1);document.getElementById('mcBook').value=String(currentBook);fillChapters();renderChapter(vs)}
-function toggleAudio(){const synth=window.speechSynthesis;if(!synth)return;const btn=document.getElementById('mcBibleAudio');if(synth.speaking){synth.cancel();btn.textContent='▶ '+text('listen');return}const verses=currentBooks?.[currentBook]?.chapters?.[currentChapter]||[];if(!verses.length)return;const u=new SpeechSynthesisUtterance(verses.join(' '));u.lang=currentTranslation==='rvr'?'es-US':currentTranslation==='aa'?'pt-BR':'en-US';u.onend=()=>btn.textContent='▶ '+text('listen');btn.textContent='■ '+text('stop');synth.speak(u)}
+function fillBooks(){const s=document.getElementById('mcBook');s.innerHTML='';(currentBooks||[]).forEach((b,i)=>{const o=document.createElement('option');o.value=i;o.textContent=localizedBookName(i);s.appendChild(o)});currentBook=Math.max(0,Math.min(currentBook,(currentBooks?.length||1)-1));s.value=String(currentBook)}
+function fillChapters(){const s=document.getElementById('mcChapter'),b=currentBooks?.[currentBook];s.innerHTML='';(b?.chapters||[]).forEach((_,i)=>{const o=document.createElement('option');o.value=i;o.textContent=text('chapter',bibleLang())+' '+(i+1);s.appendChild(o)});currentChapter=Math.max(0,Math.min(currentChapter,(b?.chapters?.length||1)-1));s.value=String(currentChapter)}
+function renderChapter(focusVerse){const r=document.getElementById('mcBibleReader'),b=currentBooks?.[currentBook],v=b?.chapters?.[currentChapter]||[];if(!b)return;r.innerHTML='<h3>'+esc(localizedBookName(currentBook))+' '+(currentChapter+1)+'</h3>'+v.map((x,i)=>'<p class="mc-verse" id="mc-v'+(i+1)+'"><sup>'+(i+1)+'</sup>'+esc(x)+'</p>').join('');r.style.display='block';if(focusVerse)setTimeout(()=>document.getElementById('mc-v'+focusVerse)?.scrollIntoView({block:'center',behavior:'smooth'}),80)}
+function searchPassage(){
+ if(!currentBooks)return;
+ const input=document.getElementById('mcBibleSearch'),status=document.getElementById('mcBibleStatus');
+ const raw=input.value.trim();
+ const m=raw.match(/^(.*?)[\s.]+(\d+)(?::(\d+))?\s*$/);
+ if(!m){status.textContent=text('notFound',bibleLang());status.style.display='block';return}
+ const idx=bookIndexFromName(m[1]),ch=Math.max(1,Number(m[2])),vs=m[3]?Math.max(1,Number(m[3])):null;
+ if(idx<0||!currentBooks[idx]){status.textContent=text('notFound',bibleLang());status.style.display='block';return}
+ currentBook=idx;currentChapter=Math.min(ch-1,(currentBooks[idx].chapters?.length||1)-1);
+ document.getElementById('mcBook').value=String(currentBook);fillChapters();renderChapter(vs);status.style.display='none';
+ setTimeout(()=>document.getElementById('mcBibleReader')?.scrollIntoView({block:'start',behavior:'smooth'}),60);
+}
+function toggleAudio(){const synth=window.speechSynthesis;if(!synth)return;const btn=document.getElementById('mcBibleAudio');if(synth.speaking){synth.cancel();btn.textContent='▶ '+text('listen',bibleLang());return}const verses=currentBooks?.[currentBook]?.chapters?.[currentChapter]||[];if(!verses.length)return;const u=new SpeechSynthesisUtterance(verses.join(' '));u.lang=currentTranslation==='rvr'?'es-US':currentTranslation==='aa'?'pt-BR':'en-US';u.onend=()=>btn.textContent='▶ '+text('listen',bibleLang());btn.textContent='■ '+text('stop',bibleLang());synth.speak(u)}
 
 function addPlayer(){
  if(document.getElementById('mcPlayer'))return;
@@ -160,7 +189,18 @@ function attachNavigationBehavior(){
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('bible')?.classList.contains('open'))closeBible()});
 }
 function refreshLanguage(){
- addBibleNav();document.querySelectorAll('[data-mc="bibleTop"],[data-mc="bibleEyebrow"],[data-mc="bibleTitle"]').forEach(x=>x.textContent=text('bible'));document.querySelectorAll('[data-mc="bibleLead"]').forEach(x=>x.textContent=text('bibleLead'));document.querySelectorAll('[data-mc-bible]').forEach(x=>x.textContent=text('bible'));document.querySelectorAll('[data-mc-zelle]').forEach(x=>x.textContent=text('zelle'));const q=document.getElementById('mcBibleSearch');if(q)q.placeholder=text('searchPlaceholder');const g=document.getElementById('mcBibleGo');if(g)g.textContent=text('go');const b=document.getElementById('mcBibleAudio');if(b&&!window.speechSynthesis?.speaking)b.textContent='▶ '+text('listen');loadSermons();loadLiveConfig();
+ addBibleNav();
+ document.querySelectorAll('[data-mc="bibleTop"],[data-mc="bibleEyebrow"],[data-mc="bibleTitle"]').forEach(x=>x.textContent=text('bible'));
+ document.querySelectorAll('[data-mc="bibleLead"]').forEach(x=>x.textContent=text('bibleLead'));
+ document.querySelectorAll('[data-mc-bible]').forEach(x=>x.textContent=text('bible'));
+ document.querySelectorAll('[data-mc-zelle]').forEach(x=>x.textContent=text('zelle'));
+ const preferred={en:'kjv',es:'rvr',pt:'aa'}[lang()]||'kjv';
+ const t=document.getElementById('mcTranslation');
+ if(t&&t.value!==preferred){t.value=preferred;loadBible(preferred,true)}else if(currentBooks){fillBooks();fillChapters();renderChapter()}
+ const q=document.getElementById('mcBibleSearch');if(q)q.placeholder=text('searchPlaceholder',bibleLang());
+ const g=document.getElementById('mcBibleGo');if(g)g.textContent=text('go',bibleLang());
+ const b=document.getElementById('mcBibleAudio');if(b&&!window.speechSynthesis?.speaking)b.textContent='▶ '+text('listen',bibleLang());
+ loadSermons();loadLiveConfig();
 }
 function init(){addStyles();addPlayer();addBibleNav();addBibleSection();installZelleQR();attachNavigationBehavior();loadSermons();loadLiveConfig();setInterval(loadLiveConfig,30000);document.getElementById('lang')?.addEventListener('change',()=>setTimeout(refreshLanguage,0));window.MovementChurchPlayer={open:openMedia,minimize:minimizePlayer,expand:toggleExpand,pictureInPicture:enterSystemPiP,close:closePlayer};window.MovementChurchBible={open:openBible,close:closeBible}}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
