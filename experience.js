@@ -140,7 +140,7 @@ async function loadLiveConfig(){
    const website=cfg.website_join_enabled!==false;
    const zoom=cfg.zoom_join_enabled!==false;
    let html='<div class="mc-live-actions">';
-   if(website)html+='<a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(text('joinMeeting'))+'</a>';
+   if(website)html+='<a href="live-meeting.html">'+esc(text('joinMeeting'))+'</a>';
    if(zoom)html+='<a class="mc-live-secondary" href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(text('openZoom'))+'</a>';
    if(!website&&!zoom)html+='<a href="'+esc(url)+'" target="_blank" rel="noopener">'+esc(text('joinMeeting'))+'</a>';
    html+='</div>';
