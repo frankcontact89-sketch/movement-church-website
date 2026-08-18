@@ -1,0 +1,32 @@
+name: Embed LIVE on website
+on:
+  push:
+    paths:
+      - '.github/workflows/embed-live-on-website.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Point website join to embedded LIVE page
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('experience.js')
+          s=p.read_text()
+          old="if(website)html+='<a href=\"'+esc(url)+'\" target=\"_blank\" rel=\"noopener\">'+esc(text('joinMeeting'))+'</a>';"
+          new="if(website)html+='<a href=\"live-meeting.html\">'+esc(text('joinMeeting'))+'</a>';"
+          if old not in s:
+              raise SystemExit('Expected LIVE website link code not found')
+          p.write_text(s.replace(old,new,1))
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add experience.js
+          git diff --cached --quiet || git commit -m "Keep website LIVE meeting inside Movement Church"
+          git push
