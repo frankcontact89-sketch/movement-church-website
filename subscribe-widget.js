@@ -6,64 +6,13 @@ const copy={
   es:{eyebrow:'Mantente Conectado',title:'Recibe noticias de Movement Church',text:'Suscríbete para recibir recordatorios de cultos, eventos, reuniones EN VIVO y noticias importantes de Movement Church.',name:'Nombre',email:'Correo electrónico',button:'Suscribirme',ok:'Tu suscripción fue registrada. Bienvenido a la familia de Movement Church.',err:'No pudimos completar tu suscripción. Inténtalo nuevamente.'},
   pt:{eyebrow:'Fique Conectado',title:'Receba novidades da Movement Church',text:'Inscreva-se para receber lembretes de cultos, eventos, reuniões AO VIVO e notícias importantes da Movement Church.',name:'Nome',email:'E-mail',button:'Inscrever-se',ok:'Sua inscrição foi registrada. Bem-vindo à família Movement Church.',err:'Não foi possível concluir sua inscrição. Tente novamente.'}
 };
-function lang(){return localStorage.getItem('movementLanguage')||document.documentElement.lang?.slice(0,2)||'en'}
+function lang(){return document.getElementById('lang')?.value||localStorage.getItem('movement_lang')||'en'}
 function current(){return copy[lang()]||copy.en}
-function apply(){
-  const t=current();
-  const map={subEyebrow:'eyebrow',subTitle:'title',subText:'text',subButton:'button'};
-  for(const [id,k] of Object.entries(map)){const el=document.getElementById(id);if(el)el.textContent=t[k]}
-  const n=document.getElementById('subName'),e=document.getElementById('subEmail');
-  if(n){n.placeholder=t.name;n.setAttribute('aria-label',t.name)}
-  if(e){e.placeholder=t.email;e.setAttribute('aria-label',t.email)}
-}
-async function submit(ev){
-  ev.preventDefault();
-  const t=current(),status=document.getElementById('subStatus'),btn=document.getElementById('subButton');
-  status.style.display='block';status.textContent='…';btn.disabled=true;
-  try{
-    const r=await fetch(FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('subName').value.trim(),email:document.getElementById('subEmail').value.trim(),preferred_language:lang()})});
-    const d=await r.json().catch(()=>({}));
-    if(!r.ok)throw new Error(d.error||t.err);
-    status.textContent=t.ok;document.getElementById('subscribeForm').reset();
-  }catch(err){status.textContent=err.message||t.err}
-  finally{btn.disabled=false;apply()}
-}
-function buildSubscribe(){
-  const mount=document.getElementById('subscribeMount');
-  if(!mount||document.getElementById('subscribeForm'))return;
-  mount.innerHTML='<p class="lead" id="subText"></p><form id="subscribeForm" style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr auto;gap:12px;max-width:900px"><input id="subName" autocomplete="name" aria-label="Name" style="min-height:52px;border-radius:10px;border:1px solid var(--line);background:#071827;color:#fff;padding:0 14px" required><input id="subEmail" type="email" autocomplete="email" aria-label="Email address" style="min-height:52px;border-radius:10px;border:1px solid var(--line);background:#071827;color:#fff;padding:0 14px" required><button id="subButton" class="btn primary" type="submit"></button></form><p id="subStatus" class="lead" role="status" aria-live="polite" style="display:none;margin-top:14px"></p>';
-  const section=document.getElementById('subscribe');
-  if(section){
-    const eyebrow=section.querySelector('.eyebrow'); if(eyebrow)eyebrow.id='subEyebrow';
-    const title=section.querySelector('.title'); if(title)title.id='subTitle';
-  }
-  const style=document.createElement('style');
-  style.textContent='@media(max-width:760px){#subscribeForm{grid-template-columns:1fr!important}#subscribeForm .btn{width:100%}}';
-  document.head.appendChild(style);
-  document.getElementById('subscribeForm').addEventListener('submit',submit);
-  apply();
-}
-
-const givingText={
-  en:{choose:'Select a giving method',hide:'Hide giving methods',secure:'Choose your preferred secure giving method.',recurring:'Weekly and monthly recurring giving are available with Card/Stripe. Other methods are manual transfers.',card:'Card / Stripe'},
-  es:{choose:'Selecciona un método para dar',hide:'Ocultar métodos',secure:'Elige tu método seguro de preferencia.',recurring:'Las donaciones recurrentes semanales y mensuales están disponibles con Tarjeta/Stripe. Los demás métodos son transferencias manuales.',card:'Tarjeta / Stripe'},
-  pt:{choose:'Selecione uma forma de contribuição',hide:'Ocultar formas',secure:'Escolha sua forma segura de contribuição.',recurring:'Contribuições recorrentes semanais e mensais estão disponíveis com Cartão/Stripe. As demais formas são transferências manuais.',card:'Cartão / Stripe'}
-};
-function enhanceGiving(){
-  const grid=document.getElementById('givingGrid'),title=document.querySelector('.give-method-title'),security=document.querySelector('.give-security'),freq=document.getElementById('giveFrequency');
-  if(!grid||!title||grid.dataset.enhanced)return;
-  grid.dataset.enhanced='1';
-  const t=givingText[lang()]||givingText.en;
-  title.style.display='none';grid.style.display='none';
-  const b=document.createElement('button');b.type='button';b.className='give-method-picker';b.textContent=t.choose;grid.parentNode.insertBefore(b,grid);
-  const note=document.createElement('p');note.className='give-recurring-note';note.textContent=t.recurring;grid.parentNode.insertBefore(note,security);
-  if(security)security.textContent=t.secure;
-  const style=document.createElement('style');
-  style.textContent='.give-method-picker{width:100%;min-height:58px;border:1px solid #d9e0e8;border-radius:16px;background:#fff;color:#071827;font-weight:850;font-size:18px;padding:0 18px;text-align:left;position:relative;cursor:pointer}.give-method-picker:after{content:"⌄";position:absolute;right:18px;font-size:22px}.give-method-picker.open:after{content:"⌃"}.give-recurring-note{color:#6c7988;font-size:13px;text-align:center;margin:14px auto 0;max-width:560px}.giving-label small{display:none!important}.giving-list{margin-top:10px}.giving-item[data-give] .giving-details{padding-left:18px!important}.giving-item[data-give] .giving-details p{font-size:15px}.giving-item[data-give] .giving-details .qr{margin-left:auto;margin-right:auto}@media(max-width:620px){.give-method-picker{min-height:54px;font-size:17px}.give-recurring-note{font-size:12px}}';
-  document.head.appendChild(style);
-  b.addEventListener('click',()=>{const open=grid.style.display==='block';grid.style.display=open?'none':'block';b.classList.toggle('open',!open);b.textContent=open?t.choose:t.hide});
-  if(freq){freq.addEventListener('change',()=>{note.style.display=freq.selectedIndex===0?'none':'block'});if(freq.selectedIndex===0)note.style.display='none'}
-}
-function init(){buildSubscribe();enhanceGiving();const selector=document.getElementById('lang');if(selector)selector.addEventListener('change',()=>{setTimeout(()=>{apply();},0)})}
+function apply(){const t=current(),map={subEyebrow:'eyebrow',subTitle:'title',subText:'text',subButton:'button'};for(const [id,k] of Object.entries(map)){const el=document.getElementById(id);if(el)el.textContent=t[k]}const n=document.getElementById('subName'),e=document.getElementById('subEmail');if(n){n.placeholder=t.name;n.setAttribute('aria-label',t.name)}if(e){e.placeholder=t.email;e.setAttribute('aria-label',t.email)}}
+async function submit(ev){ev.preventDefault();const t=current(),status=document.getElementById('subStatus'),btn=document.getElementById('subButton'),name=document.getElementById('subName').value.trim(),email=document.getElementById('subEmail').value.trim();status.style.display='block';status.textContent='…';btn.disabled=true;try{const r=await fetch(FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,preferred_language:lang()})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||t.err);status.textContent=t.ok;status.style.color='#9ee6b8';document.getElementById('subscribeForm').reset()}catch(err){status.textContent=err?.message||t.err;status.style.color='#ffb4b4'}finally{btn.disabled=false;apply()}}
+function buildSubscribe(){const mount=document.getElementById('subscribeMount');if(!mount||document.getElementById('subscribeForm'))return;mount.innerHTML='<p class="lead" id="subText"></p><form id="subscribeForm" style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr auto;gap:12px;max-width:900px"><input id="subName" autocomplete="name" maxlength="120" aria-label="Name" style="min-height:52px;border-radius:10px;border:1px solid var(--line);background:#071827;color:#fff;padding:0 14px" required><input id="subEmail" type="email" autocomplete="email" maxlength="200" aria-label="Email address" style="min-height:52px;border-radius:10px;border:1px solid var(--line);background:#071827;color:#fff;padding:0 14px" required><button id="subButton" class="btn primary" type="submit"></button></form><p id="subStatus" class="lead" role="status" aria-live="polite" style="display:none;margin-top:14px"></p>';const section=document.getElementById('subscribe');if(section){const eyebrow=section.querySelector('.eyebrow'),title=section.querySelector('.title');if(eyebrow)eyebrow.id='subEyebrow';if(title)title.id='subTitle'}const style=document.createElement('style');style.textContent='@media(max-width:760px){#subscribeForm{grid-template-columns:1fr!important}#subscribeForm .btn{width:100%}}';document.head.appendChild(style);document.getElementById('subscribeForm').addEventListener('submit',submit);apply()}
+const givingText={en:{choose:'Select a giving method',hide:'Hide giving methods',secure:'Choose your preferred secure giving method.',recurring:'Weekly and monthly recurring giving are available with Card/Stripe. Other methods are manual transfers.'},es:{choose:'Selecciona un método para dar',hide:'Ocultar métodos',secure:'Elige tu método seguro de preferencia.',recurring:'Las donaciones recurrentes semanales y mensuales están disponibles con Tarjeta/Stripe. Los demás métodos son transferencias manuales.'},pt:{choose:'Selecione uma forma de contribuição',hide:'Ocultar formas',secure:'Escolha sua forma segura de contribuição.',recurring:'Contribuições recorrentes semanais e mensais estão disponíveis com Cartão/Stripe. As demais formas são transferências manuais.'}};
+function enhanceGiving(){const grid=document.getElementById('givingGrid'),title=document.querySelector('.give-method-title'),security=document.querySelector('.give-security'),freq=document.getElementById('giveFrequency');if(!grid||!title||grid.dataset.enhanced)return;grid.dataset.enhanced='1';const t=givingText[lang()]||givingText.en;title.style.display='none';grid.style.display='none';const b=document.createElement('button');b.type='button';b.className='give-method-picker';b.textContent=t.choose;grid.parentNode.insertBefore(b,grid);const note=document.createElement('p');note.className='give-recurring-note';note.textContent=t.recurring;grid.parentNode.insertBefore(note,security);if(security)security.textContent=t.secure;const style=document.createElement('style');style.textContent='.give-method-picker{width:100%;min-height:58px;border:1px solid #d9e0e8;border-radius:16px;background:#fff;color:#071827;font-weight:850;font-size:18px;padding:0 18px;text-align:left;position:relative;cursor:pointer}.give-method-picker:after{content:"⌄";position:absolute;right:18px;font-size:22px}.give-method-picker.open:after{content:"⌃"}.give-recurring-note{color:#6c7988;font-size:13px;text-align:center;margin:14px auto 0;max-width:560px}@media(max-width:620px){.give-method-picker{min-height:54px;font-size:17px}.give-recurring-note{font-size:12px}}';document.head.appendChild(style);b.addEventListener('click',()=>{const open=grid.style.display==='block';grid.style.display=open?'none':'block';b.classList.toggle('open',!open);b.textContent=open?t.choose:t.hide});if(freq){freq.addEventListener('change',()=>{note.style.display=freq.selectedIndex===0?'none':'block'});if(freq.selectedIndex===0)note.style.display='none'}}
+function init(){buildSubscribe();enhanceGiving();const selector=document.getElementById('lang');if(selector)selector.addEventListener('change',()=>setTimeout(apply,0))}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
