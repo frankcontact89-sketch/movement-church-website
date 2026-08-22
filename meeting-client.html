@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Movement Church LIVE</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
+<script src="https://source.zoom.us/6.2.0/lib/vendor/react.min.js"></script>
+<script src="https://source.zoom.us/6.2.0/lib/vendor/react-dom.min.js"></script>
+<script src="https://source.zoom.us/6.2.0/lib/vendor/redux.min.js"></script>
+<script src="https://source.zoom.us/6.2.0/lib/vendor/redux-thunk.min.js"></script>
+<script src="https://source.zoom.us/6.2.0/lib/vendor/lodash.min.js"></script>
+<script src="https://source.zoom.us/zoom-meeting-6.2.0.min.js"></script>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}
+#zmmtg-root{display:none}
+</style>
+</head>
+<body>
+<script>
+(function(){
+'use strict';
+const PF_URL='https://xikmhnulxksadgvzajdk.supabase.co';
+const PF_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ4aWttaG51bHhrc2FkanZhamRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4NTQxMjgsImV4cCI6MjA4MTQzMDEyOH0.ItlRdBJFk_sNkxS3ghggifNXaMc2sRFx-B8P4afFIjI';
+const params=new URLSearchParams(location.search);
+const userName=(params.get('name')||'Guest').slice(0,120);
+const lang=(params.get('lang')||'en').toLowerCase();
+const zoomLang={en:'en-US',es:'es-ES',pt:'pt-PT'}[lang]||'en-US';
+let started=false;
+function notify(type,extra={}){try{parent.postMessage({source:'movement-live',type,...extra},location.origin)}catch(_){}}
+async function getSignature(){
+ const sb=window.supabase.createClient(PF_URL,PF_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+ const result=await sb.functions.invoke('zoom-signature',{body:{}});
+ if(result.error)throw result.error;
+ if(!result.data?.success)throw new Error(result.data?.error||'LIVE not configured');
+ return result.data;
+}
+async function start(){
+ try{
+  if(!window.ZoomMtg)throw new Error('Zoom SDK unavailable');
+  try{const i18n=ZoomMtg.i18n;if(i18n?.load){const r=i18n.load(zoomLang);if(r?.then)await r}}catch(_){}
+  const data=await getSignature();
+  ZoomMtg.setZoomJSLib('https://source.zoom.us/6.2.0/lib','/av');
+  ZoomMtg.preLoadWasm();
+  ZoomMtg.prepareWebSDK();
+  document.getElementById('zmmtg-root').style.display='block';
+  started=true;
+  notify('starting');
+  ZoomMtg.init({
+   leaveUrl:location.href,
+   patchJsMedia:true,
+   disableCORP:!window.crossOriginIsolated,
+   success:()=>ZoomMtg.join({
+    signature:data.signature,
+    sdkKey:data.sdkKey,
+    meetingNumber:data.meetingNumber,
+    passWord:data.passcode||'',
+    userName,
+    userEmail:'',
+    success:()=>notify('joined'),
+    error:error=>{console.error(error);notify('error',{message:error?.reason||error?.message||'join_failed'})}
+   }),
+   error:error=>{console.error(error);notify('error',{message:error?.reason||error?.message||'init_failed'})}
+  });
+ }catch(error){console.error(error);notify('error',{message:error?.message||'start_failed'})}
+}
+function leave(){
+ try{
+  if(started&&window.ZoomMtg?.leaveMeeting){
+   ZoomMtg.leaveMeeting({confirm:false,success:()=>notify('left'),error:()=>notify('left')});
+   setTimeout(()=>notify('left'),1200);
+  }else notify('left');
+ }catch(_){notify('left')}
+}
+window.addEventListener('message',event=>{
+ if(event.origin!==location.origin)return;
+ if(event.data?.source!=='movement-live-host')return;
+ if(event.data.type==='leave')leave();
+});
+window.addEventListener('beforeunload',()=>notify('left'));
+start();
+})();
+</script>
+</body>
+</html>
