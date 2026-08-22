@@ -12,11 +12,18 @@
 <script src="https://source.zoom.us/6.2.0/lib/vendor/lodash.min.js"></script>
 <script src="https://source.zoom.us/zoom-meeting-6.2.0.min.js"></script>
 <style>
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111}
-#zmmtg-root{display:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}#zmmtg-root{display:none}.permission{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;background:#04111f;z-index:20}.permission.hidden{display:none}.permission-card{width:min(430px,100%);background:#0b1d2c;border:1px solid #ffffff24;border-radius:22px;padding:24px;text-align:center;box-shadow:0 24px 70px #0008}.permission h1{margin:0 0 12px;font-size:27px}.permission p{margin:0 0 18px;color:#c7d5e2;line-height:1.45}.permission button{width:100%;min-height:56px;border:0;border-radius:13px;background:#2468f2;color:#fff;font-weight:900;font-size:17px}.permission button:disabled{opacity:.6}.permission .error{color:#ffb4b4;margin-top:14px;min-height:22px}
 </style>
 </head>
 <body>
+<div id="permission" class="permission">
+  <div class="permission-card">
+    <h1 id="permissionTitle">Enable microphone</h1>
+    <p id="permissionText">Allow microphone access so Zoom audio can work correctly. You can stay muted when you enter.</p>
+    <button id="permissionButton" type="button">Allow microphone & join</button>
+    <div id="permissionError" class="error" role="status" aria-live="polite"></div>
+  </div>
+</div>
 <script>
 (function(){
 'use strict';
@@ -26,6 +33,18 @@ const params=new URLSearchParams(location.search);
 const userName=(params.get('name')||'Guest').slice(0,120);
 const lang=(params.get('lang')||'en').toLowerCase();
 const zoomLang={en:'en-US',es:'es-ES',pt:'pt-PT'}[lang]||'en-US';
+const copy={
+ en:{title:'Enable microphone',text:'Allow microphone access so Zoom audio can work correctly. You can stay muted when you enter.',button:'Allow microphone & join',blocked:'Microphone access is blocked. In your browser settings, allow microphone access for movementchurchglobal.org, then tap the button again.',unavailable:'This browser could not request microphone access.'},
+ es:{title:'Activar micrófono',text:'Permite el acceso al micrófono para que el audio de Zoom funcione correctamente. Puedes entrar silenciado.',button:'Permitir micrófono y entrar',blocked:'El acceso al micrófono está bloqueado. En la configuración del navegador, permite el micrófono para movementchurchglobal.org y toca el botón otra vez.',unavailable:'Este navegador no pudo solicitar acceso al micrófono.'},
+ pt:{title:'Ativar microfone',text:'Permita o acesso ao microfone para que o áudio do Zoom funcione corretamente. Você pode entrar no mudo.',button:'Permitir microfone e entrar',blocked:'O acesso ao microfone está bloqueado. Nas configurações do navegador, permita o microfone para movementchurchglobal.org e toque no botão novamente.',unavailable:'Este navegador não conseguiu solicitar acesso ao microfone.'}
+};
+const words=copy[lang]||copy.en;
+const permission=document.getElementById('permission');
+const permissionButton=document.getElementById('permissionButton');
+const permissionError=document.getElementById('permissionError');
+document.getElementById('permissionTitle').textContent=words.title;
+document.getElementById('permissionText').textContent=words.text;
+permissionButton.textContent=words.button;
 let started=false;
 function notify(type,extra={}){try{parent.postMessage({source:'movement-live',type,...extra},location.origin)}catch(_){}}
 async function getSignature(){
@@ -34,6 +53,18 @@ async function getSignature(){
  if(result.error)throw result.error;
  if(!result.data?.success)throw new Error(result.data?.error||'LIVE not configured');
  return result.data;
+}
+async function requestMicrophone(){
+ if(!navigator.mediaDevices?.getUserMedia){permissionError.textContent=words.unavailable;return false}
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  stream.getTracks().forEach(track=>track.stop());
+  return true;
+ }catch(error){
+  console.error(error);
+  permissionError.textContent=words.blocked;
+  return false;
+ }
 }
 async function start(){
  try{
@@ -64,6 +95,14 @@ async function start(){
   });
  }catch(error){console.error(error);notify('error',{message:error?.message||'start_failed'})}
 }
+async function authorizeAndStart(){
+ permissionButton.disabled=true;
+ permissionError.textContent='';
+ const allowed=await requestMicrophone();
+ if(!allowed){permissionButton.disabled=false;return}
+ permission.classList.add('hidden');
+ await start();
+}
 function leave(){
  try{
   if(started&&window.ZoomMtg?.leaveMeeting){
@@ -72,13 +111,13 @@ function leave(){
   }else notify('left');
  }catch(_){notify('left')}
 }
+permissionButton.addEventListener('click',authorizeAndStart);
 window.addEventListener('message',event=>{
  if(event.origin!==location.origin)return;
  if(event.data?.source!=='movement-live-host')return;
  if(event.data.type==='leave')leave();
 });
 window.addEventListener('beforeunload',()=>notify('left'));
-start();
 })();
 </script>
 </body>
