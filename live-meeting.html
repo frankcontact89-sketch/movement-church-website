@@ -12,16 +12,27 @@
 <script defer src="https://source.zoom.us/6.2.0/lib/vendor/lodash.min.js"></script>
 <script defer src="https://source.zoom.us/zoom-meeting-6.2.0.min.js"></script>
 <style>
-:root{--navy:#04111f;--blue:#2468f2;--line:#ffffff1a;--muted:#a7b8c9;--red:#ef4444;--church-nav:calc(74px + env(safe-area-inset-bottom));--zoom-bar:82px}*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--navy);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;overflow-x:hidden}a{text-decoration:none;color:inherit}button,a,input,select{font:inherit}.top{position:sticky;top:0;z-index:50;background:#04111ff5;border-bottom:1px solid var(--line)}.head{height:76px;max-width:1180px;margin:auto;padding:0 18px;display:flex;align-items:center;gap:13px}.logo{width:48px;height:48px;border-radius:11px;object-fit:cover}.brand{font-weight:950;letter-spacing:.09em}.lang{margin-left:auto;border:1px solid var(--line);background:#ffffff0d;color:#fff;border-radius:11px;padding:10px 12px;font-weight:850;min-height:44px}.back{border:1px solid var(--line);padding:10px 13px;border-radius:11px;font-weight:800;min-height:44px;display:inline-flex;align-items:center}.shell{width:min(1120px,calc(100% - 28px));margin:28px auto calc(var(--church-nav) + 28px)}.intro{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}.hero,.card{border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#0c2438,#07121e);box-shadow:0 25px 80px #0007}.hero{padding:34px;min-height:430px;display:flex;flex-direction:column;justify-content:flex-end}.hero h1{font-size:clamp(42px,7vw,78px);line-height:.93;margin:18px 0}.hero p,.card p{color:#c5d4e2}.live{font-weight:900}.dot{display:inline-block;width:9px;height:9px;background:var(--red);border-radius:50%;margin-right:8px}.card{padding:28px;display:flex;flex-direction:column;justify-content:center}.field{width:100%;min-height:58px;border:1px solid #ffffff24;border-radius:13px;background:#ffffff0b;color:#fff;padding:0 16px;font-size:17px}.join,.zoom{margin-top:12px;width:100%;min-height:58px;border-radius:13px;color:#fff;font-size:17px;font-weight:950;display:flex;align-items:center;justify-content:center;cursor:pointer}.join{border:0;background:var(--blue)}.join:disabled{opacity:.62;cursor:wait}.zoom{border:1px solid var(--line);background:#ffffff0b}.zoom[aria-disabled="true"]{pointer-events:none;opacity:.55}.small{font-size:13px}.status{color:#c5d4e2;margin-top:12px;min-height:44px}.status.error{color:#ffb4b4}.native-note{padding:12px 14px;margin-top:14px;border-radius:12px;background:#ffffff0b;border:1px solid #ffffff1a;color:#dce8f3;font-size:13px}#zmmtg-root{display:none}.site-panel{display:none;position:fixed;inset:0 0 var(--church-nav) 0;z-index:5000;background:var(--navy)}.site-panel.open{display:block}.site-panel-head{min-height:62px;background:#04111f;color:#fff;display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}.site-panel-title{min-width:0;flex:1}.site-panel-title strong{display:block}.site-panel-title span{display:block;color:#c5d4e2;font-size:12px;margin-top:2px}.site-panel-close{border:0;background:var(--blue);color:#fff;border-radius:12px;padding:10px 14px;font-weight:900;min-height:44px;cursor:pointer;white-space:nowrap}.site-frame{width:100%;height:calc(100% - 62px);border:0;background:var(--navy)}body.in-meeting #zmmtg-root{display:block!important;position:fixed!important;inset:0 0 var(--church-nav) 0!important;width:100%!important;height:auto!important;overflow:hidden!important;z-index:3000!important;background:#181818!important}body.in-meeting #zmmtg-root .meeting-client,body.in-meeting #zmmtg-root .meeting-client-inner{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-height:100%!important;padding-bottom:var(--zoom-bar)!important}body.in-meeting #zmmtg-root .footer{display:flex!important;visibility:visible!important;opacity:1!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:var(--zoom-bar)!important;z-index:99999!important;background:#111!important}.meeting-exit{display:none;position:fixed;top:max(12px,env(safe-area-inset-top));right:12px;z-index:12000;border:1px solid #ffffff55;background:#b42318;color:#fff;border-radius:12px;padding:10px 14px;min-height:44px;font-size:13px;font-weight:900;box-shadow:0 10px 26px #0008;cursor:pointer}body.meeting-session .meeting-exit{display:block}.floating-meeting-actions{display:none}.floating-meeting-drag{display:none}body.panel-open #zmmtg-root{display:block!important;visibility:visible!important;inset:auto 12px calc(var(--church-nav) + 54px) auto!important;width:min(46vw,280px)!important;height:168px!important;background:#000!important;border:1px solid #ffffff40!important;border-radius:16px!important;overflow:hidden!important;z-index:6000!important;pointer-events:none!important;box-shadow:0 18px 46px #0009!important}body.panel-open #zmmtg-root .meeting-client,body.panel-open #zmmtg-root .meeting-client-inner{padding-bottom:0!important;background:#000!important;overflow:hidden!important;pointer-events:none!important}body.panel-open #zmmtg-root .footer{display:none!important}.floating-meeting-drag{position:fixed;z-index:7001;right:12px;bottom:calc(var(--church-nav) + 190px);width:min(46vw,280px);height:32px;align-items:center;justify-content:center;background:#071827df;color:#fff;border:1px solid #ffffff35;border-radius:16px 16px 0 0;cursor:grab;touch-action:none;font-size:11px;font-weight:850;letter-spacing:.02em}.floating-meeting-drag:active{cursor:grabbing}.floating-meeting-drag:focus-visible{outline:3px solid #83b5ff;outline-offset:3px}body.panel-open .floating-meeting-drag{display:flex}.floating-meeting-actions{position:fixed;z-index:7000;right:12px;bottom:calc(var(--church-nav) + 10px);display:none;gap:8px;max-width:min(46vw,280px)}body.panel-open .floating-meeting-actions{display:flex}body.meeting-presentation-hidden #zmmtg-root,body.meeting-presentation-hidden .floating-meeting-actions,body.meeting-presentation-hidden .floating-meeting-drag{display:none!important}.float-action{border:1px solid #ffffff2d;background:#071827;color:#fff;border-radius:10px;padding:8px 10px;min-height:36px;font-size:12px;font-weight:850;cursor:pointer;white-space:nowrap}.float-action.primary{background:var(--blue);border-color:var(--blue)}.bottom{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:8000;background:#fff;color:#071827;padding:7px 8px max(7px,env(safe-area-inset-bottom));min-height:var(--church-nav);box-shadow:0 -8px 30px #0003}.bottom button{border:0;background:transparent;color:#526174;min-width:0;min-height:52px;text-align:center;padding:4px;font-size:11px;font-weight:900;cursor:pointer;border-radius:11px}.bottom b{display:block;font-size:21px;line-height:25px}.bottom button.active{color:#0b5bd3;background:#eaf2ff}.bottom .live-btn b{color:var(--red)}.bottom button:focus-visible,.join:focus-visible,.zoom:focus-visible,.site-panel-close:focus-visible,.float-action:focus-visible,.meeting-exit:focus-visible,.lang:focus-visible,.back:focus-visible,.field:focus-visible{outline:3px solid #83b5ff;outline-offset:3px}@media(max-width:760px){:root{--zoom-bar:92px}.brand{font-size:14px}.back{display:none}.shell{width:100%;margin:0;padding-bottom:calc(var(--church-nav) + 8px)}.intro{display:block}.hero{min-height:330px;border-radius:0;padding:24px}.hero h1{font-size:50px}.card{margin:14px;padding:22px}.site-panel{bottom:var(--church-nav)}.site-panel-head{min-height:70px}.site-frame{height:calc(100% - 70px)}body.in-meeting #zmmtg-root{bottom:var(--church-nav)!important}body.panel-open #zmmtg-root{width:min(56vw,270px)!important;height:152px!important;right:8px!important;bottom:calc(var(--church-nav) + 52px)!important}.floating-meeting-drag{right:8px;bottom:calc(var(--church-nav) + 204px);width:min(56vw,270px)}.floating-meeting-actions{right:8px;bottom:calc(var(--church-nav) + 8px);max-width:min(56vw,270px)}.float-action{min-height:38px;padding:8px}.site-panel-title span{display:none}.meeting-exit{top:max(8px,env(safe-area-inset-top));right:8px;padding:9px 11px;min-height:40px}}@media(min-width:761px){.bottom{left:50%;right:auto;transform:translateX(-50%);width:min(760px,100%);border-radius:18px 18px 0 0}}@media(orientation:landscape) and (max-height:520px){:root{--church-nav:64px;--zoom-bar:64px}.bottom{padding:3px 8px}.bottom button{min-height:48px}.bottom b{font-size:17px;line-height:20px}.top{display:none}body.in-meeting #zmmtg-root{top:0!important}body.panel-open #zmmtg-root{height:112px!important;bottom:calc(var(--church-nav) + 46px)!important}}
+:root{--navy:#04111f;--blue:#2468f2;--line:#ffffff1a;--muted:#a7b8c9;--red:#ef4444;--church-nav:calc(76px + env(safe-area-inset-bottom));--zoom-bar:88px}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--navy);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;overflow-x:hidden}a{text-decoration:none;color:inherit}button,a,input,select{font:inherit}.top{position:sticky;top:0;z-index:50;background:#04111ff5;border-bottom:1px solid var(--line)}.head{height:76px;max-width:1180px;margin:auto;padding:0 18px;display:flex;align-items:center;gap:13px}.logo{width:48px;height:48px;border-radius:11px;object-fit:cover}.brand{font-weight:950;letter-spacing:.09em}.lang{margin-left:auto;border:1px solid var(--line);background:#ffffff0d;color:#fff;border-radius:11px;padding:10px 12px;font-weight:850;min-height:44px}.back{border:1px solid var(--line);padding:10px 13px;border-radius:11px;font-weight:800;min-height:44px;display:inline-flex;align-items:center}.shell{width:min(1120px,calc(100% - 28px));margin:28px auto calc(var(--church-nav) + 28px)}.intro{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}.hero,.card{border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#0c2438,#07121e);box-shadow:0 25px 80px #0007}.hero{padding:34px;min-height:430px;display:flex;flex-direction:column;justify-content:flex-end}.hero h1{font-size:clamp(42px,7vw,78px);line-height:.93;margin:18px 0}.hero p,.card p{color:#c5d4e2}.live{font-weight:900}.dot{display:inline-block;width:9px;height:9px;background:var(--red);border-radius:50%;margin-right:8px}.card{padding:28px;display:flex;flex-direction:column;justify-content:center}.field{width:100%;min-height:58px;border:1px solid #ffffff24;border-radius:13px;background:#ffffff0b;color:#fff;padding:0 16px;font-size:17px}.join,.zoom{margin-top:12px;width:100%;min-height:58px;border-radius:13px;color:#fff;font-size:17px;font-weight:950;display:flex;align-items:center;justify-content:center;cursor:pointer}.join{border:0;background:var(--blue)}.join:disabled{opacity:.62;cursor:wait}.zoom{border:1px solid var(--line);background:#ffffff0b}.zoom[aria-disabled="true"]{pointer-events:none;opacity:.55}.small{font-size:13px}.status{color:#c5d4e2;margin-top:12px;min-height:44px}.status.error{color:#ffb4b4}.native-note{padding:12px 14px;margin-top:14px;border-radius:12px;background:#ffffff0b;border:1px solid #ffffff1a;color:#dce8f3;font-size:13px}
+#zmmtg-root{display:none}body.in-meeting #zmmtg-root{display:block!important;position:fixed!important;inset:0 0 var(--church-nav) 0!important;width:100%!important;height:auto!important;overflow:hidden!important;z-index:3000!important;background:#181818!important}body.in-meeting #zmmtg-root .meeting-client,body.in-meeting #zmmtg-root .meeting-client-inner{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-height:100%!important;padding-bottom:var(--zoom-bar)!important}body.in-meeting #zmmtg-root .footer{display:flex!important;visibility:visible!important;opacity:1!important;position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:var(--zoom-bar)!important;z-index:99999!important;background:#111!important}
+.site-panel{display:none;position:fixed;inset:0 0 var(--church-nav) 0;z-index:5000;background:var(--navy)}.site-panel.open{display:block}.site-panel-head{min-height:64px;background:#04111f;color:#fff;display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}.site-panel-title{min-width:0;flex:1}.site-panel-title strong{display:block}.site-panel-title span{display:block;color:#c5d4e2;font-size:12px;margin-top:2px}.site-panel-close{border:0;background:var(--blue);color:#fff;border-radius:12px;padding:10px 14px;font-weight:900;min-height:44px;cursor:pointer;white-space:nowrap}.site-frame{width:100%;height:calc(100% - 64px);border:0;background:var(--navy)}
+body.panel-open #zmmtg-root{display:block!important;visibility:visible!important;inset:auto 10px calc(var(--church-nav) + 18px) auto!important;width:min(46vw,280px)!important;height:168px!important;background:#000!important;border:1px solid #ffffff40!important;border-radius:16px!important;overflow:hidden!important;z-index:6000!important;box-shadow:0 18px 46px #0009!important;pointer-events:auto!important}body.panel-open #zmmtg-root .meeting-client,body.panel-open #zmmtg-root .meeting-client-inner{padding-bottom:0!important;background:#000!important;overflow:hidden!important}body.panel-open #zmmtg-root .footer,body.panel-open #zmmtg-root [class*="footer"],body.panel-open #zmmtg-root [class*="toolbar"]{display:none!important}body.panel-open .zoom-swipe-hint{display:none!important}
+.bottom{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:8000;background:#fff;color:#071827;padding:7px 8px max(7px,env(safe-area-inset-bottom));min-height:var(--church-nav);box-shadow:0 -8px 30px #0003}.bottom button{border:0;background:transparent;color:#526174;min-width:0;min-height:52px;text-align:center;padding:4px;font-size:11px;font-weight:900;cursor:pointer;border-radius:11px}.bottom b{display:block;font-size:21px;line-height:25px}.bottom button.active{color:#0b5bd3;background:#eaf2ff}.bottom .live-btn b{color:var(--red)}.bottom .exit-btn{display:none;color:#b42318}.bottom .exit-btn b{color:#b42318}.bottom .exit-btn span{color:#b42318}.bottom.session-active{grid-template-columns:repeat(5,minmax(0,1fr))}.bottom.session-active .exit-btn{display:block}.bottom button:focus-visible,.join:focus-visible,.zoom:focus-visible,.site-panel-close:focus-visible,.lang:focus-visible,.back:focus-visible,.field:focus-visible{outline:3px solid #83b5ff;outline-offset:3px}
+@media(max-width:760px){:root{--zoom-bar:92px}.brand{font-size:14px}.back{display:none}.shell{width:100%;margin:0;padding-bottom:calc(var(--church-nav) + 8px)}.intro{display:block}.hero{min-height:330px;border-radius:0;padding:24px}.hero h1{font-size:50px}.card{margin:14px;padding:22px}.site-panel{bottom:var(--church-nav)}.site-panel-head{min-height:70px}.site-frame{height:calc(100% - 70px)}body.in-meeting #zmmtg-root{bottom:var(--church-nav)!important}body.panel-open #zmmtg-root{width:min(54vw,260px)!important;height:150px!important;right:8px!important;bottom:calc(var(--church-nav) + 12px)!important}}
+@media(min-width:761px){.bottom{left:50%;right:auto;transform:translateX(-50%);width:min(760px,100%);border-radius:18px 18px 0 0}}
 </style>
 </head>
 <body>
 <header class="top"><div class="head"><img class="logo" src="Logo.jpg" alt="Movement Church"><div class="brand">MOVEMENT CHURCH</div><select id="lang" class="lang" aria-label="Website language"><option value="en">EN</option><option value="es">ES</option><option value="pt">PT</option></select><a class="back" href="./" data-i18n="website">Website</a></div></header>
-<main id="liveShell" class="shell"><section class="intro"><div class="hero"><span class="live"><span class="dot"></span>MOVEMENT CHURCH LIVE</span><h1 data-i18n="heroTitle">Church wherever you are.</h1><p data-i18n="heroLead">Join worship, hear the Word and stay connected without leaving Movement Church.</p></div><div class="card"><h2 data-i18n="joinTitle">Join the LIVE meeting</h2><p data-i18n="joinLead">Enter the name you want other participants to see.</p><label class="sr-only" for="name" data-i18n="nameLabel" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Your name</label><input id="name" class="field" autocomplete="name" maxlength="120" placeholder="Your name" data-i18n-placeholder="namePlaceholder"><button id="join" class="join" type="button" data-i18n="joinWebsite">Join on website</button><a id="openZoom" class="zoom" href="#" aria-disabled="true" target="_blank" rel="noopener" data-i18n="openZoom">Open in Zoom</a><p id="status" class="status" role="status" aria-live="polite">Loading live meeting details…</p><div class="native-note" data-i18n="nativeControls">After joining, use the native Zoom controls for microphone, camera, participants, and other meeting tools.</div><p class="small" data-i18n="panelIntro">Bible, Give and Home stay available without leaving the meeting. When a section is open, the meeting can remain as a floating in-page view.</p></div></section></main>
-<div id="sitePanel" class="site-panel" aria-hidden="true"><div class="site-panel-head"><div class="site-panel-title"><strong id="sitePanelTitle">Movement Church</strong><span data-i18n="returnNativeControls">Return to LIVE for Zoom’s native meeting controls.</span></div><button id="sitePanelClose" class="site-panel-close" type="button" data-i18n="returnLive">Return to LIVE</button></div><iframe id="siteFrame" class="site-frame" title="Movement Church content" data-i18n-title="contentFrameTitle" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe></div>
-<div id="floatingMeetingDrag" class="floating-meeting-drag" role="button" tabindex="0" aria-label="Drag the floating meeting window" data-i18n="dragMeeting" data-i18n-aria-label="dragMeeting">Drag meeting</div><div id="floatingMeetingActions" class="floating-meeting-actions" aria-label="Floating meeting controls" data-i18n-aria-label="floatingControls"><button id="restoreMeeting" class="float-action primary" type="button" data-i18n="returnLive">Return to LIVE</button><button id="hideMeeting" class="float-action" type="button" data-i18n="hideMeeting">Hide meeting</button></div>
-<button id="leaveMeeting" class="meeting-exit" type="button" data-i18n="leaveMeeting">Leave meeting</button>
-<nav class="bottom" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation"><button class="live-btn active" type="button" data-site="live" aria-current="page"><b aria-hidden="true">●</b><span data-i18n="live">LIVE</span></button><button type="button" data-site="bible"><b aria-hidden="true">▤</b><span data-i18n="bible">BIBLE</span></button><button type="button" data-site="give"><b aria-hidden="true">♡</b><span data-i18n="give">GIVE</span></button><button type="button" data-site="home"><b aria-hidden="true">⌂</b><span data-i18n="home">HOME</span></button></nav>
+<main id="liveShell" class="shell"><section class="intro"><div class="hero"><span class="live"><span class="dot"></span>MOVEMENT CHURCH LIVE</span><h1 data-i18n="heroTitle">Church wherever you are.</h1><p data-i18n="heroLead">Join worship, hear the Word and stay connected without leaving Movement Church.</p></div><div class="card"><h2 data-i18n="joinTitle">Join the LIVE meeting</h2><p data-i18n="joinLead">Enter the name you want other participants to see.</p><label class="sr-only" for="name" data-i18n="nameLabel" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Your name</label><input id="name" class="field" autocomplete="name" maxlength="120" placeholder="Your name" data-i18n-placeholder="namePlaceholder"><button id="join" class="join" type="button" data-i18n="joinWebsite">Join on website</button><a id="openZoom" class="zoom" href="#" aria-disabled="true" target="_blank" rel="noopener" data-i18n="openZoom">Open in Zoom</a><p id="status" class="status" role="status" aria-live="polite">Loading live meeting details…</p><div class="native-note" data-i18n="nativeControls">Use Zoom’s own audio, video and meeting controls inside LIVE. Movement Church navigation stays separate below.</div><p class="small" data-i18n="panelIntro">Bible, Give and Home remain available without leaving the meeting.</p></div></section></main>
+<div id="sitePanel" class="site-panel" aria-hidden="true"><div class="site-panel-head"><div class="site-panel-title"><strong id="sitePanelTitle">Movement Church</strong><span data-i18n="returnNativeControls">Return to LIVE for Zoom’s meeting controls.</span></div><button id="sitePanelClose" class="site-panel-close" type="button" data-i18n="returnLive">Return to LIVE</button></div><iframe id="siteFrame" class="site-frame" title="Movement Church content" data-i18n-title="contentFrameTitle" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+<nav id="churchNav" class="bottom" aria-label="Primary navigation" data-i18n-aria-label="primaryNavigation">
+<button class="live-btn active" type="button" data-site="live" aria-current="page"><b aria-hidden="true">●</b><span data-i18n="live">LIVE</span></button>
+<button type="button" data-site="home"><b aria-hidden="true">⌂</b><span data-i18n="home">HOME</span></button>
+<button type="button" data-site="bible"><b aria-hidden="true">▤</b><span data-i18n="bible">BIBLE</span></button>
+<button type="button" data-site="give"><b aria-hidden="true">♡</b><span data-i18n="give">GIVE</span></button>
+<button id="leaveMeeting" class="exit-btn" type="button"><b aria-hidden="true">✕</b><span data-i18n="leaveShort">EXIT</span></button>
+</nav>
 <script>
 (function(){
 'use strict';
@@ -30,245 +41,35 @@ const PF_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ4aWttaG51bHhrc2Fka
 const MC_URL='https://yecywtxbuhfukergbwfc.supabase.co';
 const MC_KEY='sb_publishable_jFIuvZYIs1b-6IjqCnDPDw_BDivhFKs';
 const messages={
-  en:{languageSelector:'Website language',website:'Website',heroTitle:'Church wherever you are.',heroLead:'Join worship, hear the Word and stay connected without leaving Movement Church.',joinTitle:'Join the LIVE meeting',joinLead:'Enter the name you want other participants to see.',nameLabel:'Your name',namePlaceholder:'Your name',joinWebsite:'Join on website',openZoom:'Open in Zoom',nativeControls:'After joining, use the native Zoom controls for microphone, camera, participants, and other meeting tools.',panelIntro:'Bible, Give and Home stay available without leaving the meeting. When a section is open, the meeting can remain as a floating in-page view.',returnNativeControls:'Return to LIVE for Zoom’s native meeting controls.',returnLive:'Return to LIVE',contentFrameTitle:'Movement Church content',dragMeeting:'Drag meeting',floatingControls:'Floating meeting controls',hideMeeting:'Hide meeting',leaveMeeting:'Leave meeting',primaryNavigation:'Primary navigation',live:'LIVE',bible:'BIBLE',give:'GIVE',home:'HOME',loading:'Loading live meeting details…',offline:'No live meeting is available right now.',ready:'Ready to join. Zoom may ask for microphone or camera permission after you enter the meeting.',configurationError:'Live meeting details could not be loaded. Please try again later.',nameRequired:'Please enter your name before joining.',preparing:'Preparing the secure live meeting…',connected:'Connected. Use Zoom’s native controls for microphone, camera, and participants.',joinError:'We could not join the meeting. Please try again or use Open in Zoom.',openError:'Zoom could not open the meeting. Please try again or use Open in Zoom.',permissionError:'Zoom needs browser permission to continue. Check your browser settings or use Open in Zoom.',connectionError:'We could not connect to the live meeting. Please try again or use Open in Zoom.',leftMeeting:'You left the live meeting.',meetingConnected:'Meeting stays connected',panelHome:'Movement Church',panelBible:'Bible',panelGive:'Give'},
-  es:{languageSelector:'Idioma del sitio web',website:'Sitio web',heroTitle:'Iglesia donde estés.',heroLead:'Únete a la adoración, escucha la Palabra y mantente conectado sin salir de Movement Church.',joinTitle:'Únete a la reunión EN VIVO',joinLead:'Escribe el nombre que quieres que vean los demás participantes.',nameLabel:'Tu nombre',namePlaceholder:'Tu nombre',joinWebsite:'Unirse en el sitio',openZoom:'Abrir en Zoom',nativeControls:'Después de unirte, usa los controles nativos de Zoom para micrófono, cámara, participantes y otras herramientas de la reunión.',panelIntro:'Biblia, Dar e Inicio permanecen disponibles sin salir de la reunión. Al abrir una sección, la reunión puede mantenerse en una vista flotante dentro del sitio.',returnNativeControls:'Vuelve a EN VIVO para usar los controles nativos de Zoom.',returnLive:'Volver a EN VIVO',contentFrameTitle:'Contenido de Movement Church',dragMeeting:'Arrastrar reunión',floatingControls:'Controles de reunión flotante',hideMeeting:'Ocultar reunión',leaveMeeting:'Salir de la reunión',primaryNavigation:'Navegación principal',live:'EN VIVO',bible:'BIBLIA',give:'DAR',home:'INICIO',loading:'Cargando los detalles de la reunión en vivo…',offline:'No hay una reunión en vivo disponible en este momento.',ready:'Todo está listo. Zoom puede solicitar permiso para el micrófono o la cámara después de entrar a la reunión.',configurationError:'No se pudieron cargar los detalles de la reunión en vivo. Inténtalo de nuevo más tarde.',nameRequired:'Escribe tu nombre antes de unirte.',preparing:'Preparando la reunión en vivo segura…',connected:'Conectado. Usa los controles nativos de Zoom para micrófono, cámara y participantes.',joinError:'No pudimos unirte a la reunión. Inténtalo de nuevo o usa Abrir en Zoom.',openError:'Zoom no pudo abrir la reunión. Inténtalo de nuevo o usa Abrir en Zoom.',permissionError:'Zoom necesita permiso del navegador para continuar. Revisa la configuración del navegador o usa Abrir en Zoom.',connectionError:'No pudimos conectarte a la reunión en vivo. Inténtalo de nuevo o usa Abrir en Zoom.',leftMeeting:'Saliste de la reunión en vivo.',meetingConnected:'La reunión sigue conectada',panelHome:'Movement Church',panelBible:'Biblia',panelGive:'Dar'},
-  pt:{languageSelector:'Idioma do site',website:'Site',heroTitle:'Igreja onde você estiver.',heroLead:'Participe da adoração, ouça a Palavra e permaneça conectado sem sair da Movement Church.',joinTitle:'Participe da reunião AO VIVO',joinLead:'Digite o nome que você quer que os outros participantes vejam.',nameLabel:'Seu nome',namePlaceholder:'Seu nome',joinWebsite:'Entrar pelo site',openZoom:'Abrir no Zoom',nativeControls:'Depois de entrar, use os controles nativos do Zoom para microfone, câmera, participantes e outras ferramentas da reunião.',panelIntro:'Bíblia, Contribuir e Início permanecem disponíveis sem sair da reunião. Ao abrir uma seção, a reunião pode permanecer em uma visualização flutuante dentro do site.',returnNativeControls:'Volte para AO VIVO para usar os controles nativos do Zoom.',returnLive:'Voltar para AO VIVO',contentFrameTitle:'Conteúdo da Movement Church',dragMeeting:'Arrastar reunião',floatingControls:'Controles da reunião flutuante',hideMeeting:'Ocultar reunião',leaveMeeting:'Sair da reunião',primaryNavigation:'Navegação principal',live:'AO VIVO',bible:'BÍBLIA',give:'CONTRIBUIR',home:'INÍCIO',loading:'Carregando os detalhes da reunião ao vivo…',offline:'Não há uma reunião ao vivo disponível neste momento.',ready:'Tudo pronto para entrar. O Zoom pode solicitar permissão para o microfone ou a câmera depois que você entrar na reunião.',configurationError:'Não foi possível carregar os detalhes da reunião ao vivo. Tente novamente mais tarde.',nameRequired:'Digite seu nome antes de entrar.',preparing:'Preparando a reunião ao vivo segura…',connected:'Conectado. Use os controles nativos do Zoom para microfone, câmera e participantes.',joinError:'Não foi possível entrar na reunião. Tente novamente ou use Abrir no Zoom.',openError:'O Zoom não conseguiu abrir a reunião. Tente novamente ou use Abrir no Zoom.',permissionError:'O Zoom precisa de permissão do navegador para continuar. Verifique as configurações do navegador ou use Abrir no Zoom.',connectionError:'Não foi possível conectar você à reunião ao vivo. Tente novamente ou use Abrir no Zoom.',leftMeeting:'Você saiu da reunião ao vivo.',meetingConnected:'A reunião continua conectada',panelHome:'Movement Church',panelBible:'Bíblia',panelGive:'Contribuir'}
+ en:{languageSelector:'Website language',website:'Website',heroTitle:'Church wherever you are.',heroLead:'Join worship, hear the Word and stay connected without leaving Movement Church.',joinTitle:'Join the LIVE meeting',joinLead:'Enter the name you want other participants to see.',nameLabel:'Your name',namePlaceholder:'Your name',joinWebsite:'Join on website',openZoom:'Open in Zoom',nativeControls:'Use Zoom’s own audio, video and meeting controls inside LIVE. Movement Church navigation stays separate below.',panelIntro:'Bible, Give and Home remain available without leaving the meeting.',returnNativeControls:'Return to LIVE for Zoom’s meeting controls.',returnLive:'Return to LIVE',contentFrameTitle:'Movement Church content',primaryNavigation:'Primary navigation',live:'LIVE',bible:'BIBLE',give:'GIVE',home:'HOME',leaveShort:'EXIT',loading:'Loading live meeting details…',offline:'No live meeting is available right now.',ready:'Ready to join.',configurationError:'Live meeting details could not be loaded. Please try again later.',nameRequired:'Please enter your name before joining.',preparing:'Preparing the secure live meeting…',connected:'Connected.',joinError:'We could not join the meeting. Please try again or use Open in Zoom.',openError:'Zoom could not open the meeting. Please try again or use Open in Zoom.',permissionError:'Zoom needs browser permission to continue.',connectionError:'We could not connect to the live meeting. Please try again or use Open in Zoom.',leftMeeting:'You left the live meeting.',panelHome:'Movement Church',panelBible:'Bible',panelGive:'Give'},
+ es:{languageSelector:'Idioma del sitio web',website:'Sitio web',heroTitle:'Iglesia donde estés.',heroLead:'Únete a la adoración, escucha la Palabra y mantente conectado sin salir de Movement Church.',joinTitle:'Únete a la reunión EN VIVO',joinLead:'Escribe el nombre que quieres que vean los demás participantes.',nameLabel:'Tu nombre',namePlaceholder:'Tu nombre',joinWebsite:'Unirse en el sitio',openZoom:'Abrir en Zoom',nativeControls:'Usa los controles propios de Zoom para audio, video y la reunión dentro de EN VIVO. La navegación de Movement Church queda separada abajo.',panelIntro:'Biblia, Dar e Inicio permanecen disponibles sin salir de la reunión.',returnNativeControls:'Vuelve a EN VIVO para usar los controles de Zoom.',returnLive:'Volver a EN VIVO',contentFrameTitle:'Contenido de Movement Church',primaryNavigation:'Navegación principal',live:'EN VIVO',bible:'BIBLIA',give:'DAR',home:'INICIO',leaveShort:'SALIR',loading:'Cargando los detalles de la reunión en vivo…',offline:'No hay una reunión en vivo disponible en este momento.',ready:'Todo está listo.',configurationError:'No se pudieron cargar los detalles de la reunión en vivo. Inténtalo de nuevo más tarde.',nameRequired:'Escribe tu nombre antes de unirte.',preparing:'Preparando la reunión en vivo segura…',connected:'Conectado.',joinError:'No pudimos unirte a la reunión. Inténtalo de nuevo o usa Abrir en Zoom.',openError:'Zoom no pudo abrir la reunión.',permissionError:'Zoom necesita permiso del navegador para continuar.',connectionError:'No pudimos conectarte a la reunión en vivo.',leftMeeting:'Saliste de la reunión en vivo.',panelHome:'Movement Church',panelBible:'Biblia',panelGive:'Dar'},
+ pt:{languageSelector:'Idioma do site',website:'Site',heroTitle:'Igreja onde você estiver.',heroLead:'Participe da adoração, ouça a Palavra e permaneça conectado sem sair da Movement Church.',joinTitle:'Participe da reunião AO VIVO',joinLead:'Digite o nome que você quer que os outros participantes vejam.',nameLabel:'Seu nome',namePlaceholder:'Seu nome',joinWebsite:'Entrar pelo site',openZoom:'Abrir no Zoom',nativeControls:'Use os controles próprios do Zoom para áudio, vídeo e reunião dentro do AO VIVO. A navegação da Movement Church fica separada abaixo.',panelIntro:'Bíblia, Contribuir e Início permanecem disponíveis sem sair da reunião.',returnNativeControls:'Volte para AO VIVO para usar os controles do Zoom.',returnLive:'Voltar para AO VIVO',contentFrameTitle:'Conteúdo da Movement Church',primaryNavigation:'Navegação principal',live:'AO VIVO',bible:'BÍBLIA',give:'CONTRIBUIR',home:'INÍCIO',leaveShort:'SAIR',loading:'Carregando os detalhes da reunião ao vivo…',offline:'Não há uma reunião ao vivo disponível neste momento.',ready:'Tudo pronto.',configurationError:'Não foi possível carregar os detalhes da reunião ao vivo.',nameRequired:'Digite seu nome antes de entrar.',preparing:'Preparando a reunião ao vivo segura…',connected:'Conectado.',joinError:'Não foi possível entrar na reunião.',openError:'O Zoom não conseguiu abrir a reunião.',permissionError:'O Zoom precisa de permissão do navegador para continuar.',connectionError:'Não foi possível conectar você à reunião ao vivo.',leftMeeting:'Você saiu da reunião ao vivo.',panelHome:'Movement Church',panelBible:'Bíblia',panelGive:'Contribuir'}
 };
 const zoomLanguage={en:'en-US',es:'es-ES',pt:'pt-PT'};
-let activeStatus='loading';
-let panelTitleKey='panelHome';
+let activeStatus='loading',panelTitleKey='panelHome',config=null,client=null,joined=false,meetingSessionStarted=false;
+const nameEl=document.getElementById('name'),statusEl=document.getElementById('status'),panel=document.getElementById('sitePanel'),frame=document.getElementById('siteFrame'),zoomLink=document.getElementById('openZoom'),churchNav=document.getElementById('churchNav');
+nameEl.value=localStorage.getItem('movement_live_name')||'';
 function currentLanguage(){const value=document.getElementById('lang')?.value||localStorage.getItem('movement_lang')||'en';return messages[value]?value:'en'}
 function copy(key){return messages[currentLanguage()][key]||messages.en[key]||key}
-function setPanelTitle(key){panelTitleKey=key;const title=document.getElementById('sitePanelTitle');if(title)title.textContent=copy(key)}
-function applyLanguage(){
-  const language=currentLanguage();
-  document.documentElement.lang=language;
-  localStorage.setItem('movement_lang',language);
-  document.querySelectorAll('[data-i18n]').forEach((node)=>{const key=node.dataset.i18n;if(messages[language][key])node.textContent=messages[language][key]});
-  document.querySelectorAll('[data-i18n-placeholder]').forEach((node)=>{const key=node.dataset.i18nPlaceholder;if(messages[language][key])node.placeholder=messages[language][key]});
-  document.querySelectorAll('[data-i18n-aria-label]').forEach((node)=>{const key=node.dataset.i18nAriaLabel;if(messages[language][key])node.setAttribute('aria-label',messages[language][key])});
-  document.querySelectorAll('[data-i18n-title]').forEach((node)=>{const key=node.dataset.i18nTitle;if(messages[language][key])node.title=messages[language][key]});
-  const languageSelect=document.getElementById('lang');if(languageSelect)languageSelect.setAttribute('aria-label',copy('languageSelector'));
-  setPanelTitle(panelTitleKey);
-  status(activeStatus,statusEl?.classList.contains('error'));
-}
-async function loadZoomLanguage(){
-  const i18n=window.ZoomMtg?.i18n;
-  if(!i18n?.load)return;
-  const result=i18n.load(zoomLanguage[currentLanguage()]);
-  if(result&&typeof result.then==='function')await result;
-}
-let config=null,client=null,joined=false,meetingSessionStarted=false,meetingPresentationHidden=false;
-const nameEl=document.getElementById('name');
-const statusEl=document.getElementById('status');
-const panel=document.getElementById('sitePanel');
-const frame=document.getElementById('siteFrame');
-const zoomLink=document.getElementById('openZoom');
-nameEl.value=localStorage.getItem('movement_live_name')||'';
-
 function status(key,isError){activeStatus=key||'loading';statusEl.textContent=copy(activeStatus);statusEl.classList.toggle('error',Boolean(isError))}
-function setZoomFallback(url){
-  if(url){zoomLink.href=url;zoomLink.setAttribute('aria-disabled','false')}
-  else{zoomLink.href='#';zoomLink.setAttribute('aria-disabled','true')}
-}
-async function load(){
-  try{
-    const response=await fetch(MC_URL+'/rest/v1/movement_live_config?id=eq.1&select=zoom_join_url',{headers:{apikey:MC_KEY},cache:'no-store'});
-    if(!response.ok)throw new Error('Live configuration unavailable');
-    const rows=await response.json();
-    config=rows?.[0]||null;
-    if(!config?.zoom_join_url){setZoomFallback('');status('offline');return}
-    setZoomFallback(config.zoom_join_url);
-    status('ready');
-  }catch(error){
-    console.error(error);setZoomFallback('');status('configurationError',true);
-  }
-}
-function waitLib(){return new Promise(async(resolve)=>{for(let attempt=0;attempt<160;attempt++){if(window.supabase?.createClient&&window.ZoomMtg)return resolve(true);await new Promise((done)=>setTimeout(done,75))}resolve(false)})}
-function setActive(section){
-  document.querySelectorAll('[data-site]').forEach((button)=>{
-    const active=button.dataset.site===section;
-    button.classList.toggle('active',active);
-    if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');
-  });
-}
-function restoreMeeting(){
-  meetingPresentationHidden=false;
-  document.body.classList.remove('meeting-presentation-hidden');
-  closePanel();
-}
-function closePanel(){
-  panel.classList.remove('open');
-  panel.setAttribute('aria-hidden','true');
-  document.body.classList.remove('panel-open','meeting-presentation-hidden');
-  meetingPresentationHidden=false;
-  frame.src='about:blank';
-  setActive('live');
-}
-function hideMeetingPresentation(){
-  if(!meetingSessionStarted)return;
-  meetingPresentationHidden=true;
-  document.body.classList.add('meeting-presentation-hidden');
-  const title=document.getElementById('sitePanelTitle');
-  if(title)setPanelTitle('meetingConnected');
-}
-function setFloatingPosition(right,bottom){
-  const root=document.getElementById('zmmtg-root');
-  const drag=document.getElementById('floatingMeetingDrag');
-  const actions=document.getElementById('floatingMeetingActions');
-  if(!root||!drag||!actions)return;
-  root.style.setProperty('right',right+'px','important');
-  root.style.setProperty('bottom',bottom+'px','important');
-  drag.style.right=right+'px';
-  drag.style.bottom=(bottom+root.getBoundingClientRect().height)+'px';
-  actions.style.right=right+'px';
-  actions.style.bottom=Math.max(8,bottom-44)+'px';
-}
-function installFloatingDrag(){
-  const drag=document.getElementById('floatingMeetingDrag');
-  if(!drag)return;
-  let startX=0,startY=0,startRight=12,startBottom=0,dragging=false;
-  function start(event){
-    if(!document.body.classList.contains('panel-open'))return;
-    dragging=true;
-    const point=event.touches?event.touches[0]:event;
-    startX=point.clientX;startY=point.clientY;
-    const root=document.getElementById('zmmtg-root');
-    const style=getComputedStyle(root);
-    startRight=parseFloat(style.right)||12;
-    startBottom=parseFloat(style.bottom)||104;
-    drag.setPointerCapture?.(event.pointerId);
-    event.preventDefault();
-  }
-  function move(event){
-    if(!dragging)return;
-    const point=event.touches?event.touches[0]:event;
-    const right=Math.max(8,Math.min(window.innerWidth-150,startRight-(point.clientX-startX)));
-    const bottom=Math.max(60,Math.min(window.innerHeight-100,startBottom+(point.clientY-startY)));
-    setFloatingPosition(right,bottom);
-    event.preventDefault();
-  }
-  function end(){dragging=false}
-  drag.addEventListener('pointerdown',start);
-  window.addEventListener('pointermove',move,{passive:false});
-  window.addEventListener('pointerup',end);
-  drag.addEventListener('keydown',(event)=>{
-    if(!document.body.classList.contains('panel-open'))return;
-    const root=document.getElementById('zmmtg-root');
-    const style=getComputedStyle(root);
-    let right=parseFloat(style.right)||12,bottom=parseFloat(style.bottom)||104;
-    if(event.key==='ArrowLeft')right+=20;
-    else if(event.key==='ArrowRight')right-=20;
-    else if(event.key==='ArrowUp')bottom+=20;
-    else if(event.key==='ArrowDown')bottom-=20;
-    else return;
-    event.preventDefault();
-    setFloatingPosition(Math.max(8,right),Math.max(60,bottom));
-  });
-}
-function resetAfterLeave(){
-  joined=false;meetingSessionStarted=false;closePanel();document.body.classList.remove('in-meeting','meeting-session','panel-open','meeting-presentation-hidden');
-  const root=document.getElementById('zmmtg-root');
-  if(root){root.style.display='none';root.innerHTML=''}
-  document.getElementById('liveShell').style.display='block';
-  document.getElementById('join').disabled=false;
-  status('leftMeeting');
-}
-function leaveMeeting(){
-  if(!meetingSessionStarted){resetAfterLeave();return}
-  try{
-    if(window.ZoomMtg?.leaveMeeting){
-      ZoomMtg.leaveMeeting({
-        confirm:false,
-        success:resetAfterLeave,
-        error:(error)=>{console.warn('Zoom leave fallback',error);resetAfterLeave()}
-      });
-      setTimeout(()=>{if(meetingSessionStarted)resetAfterLeave()},1200);
-    }else resetAfterLeave();
-  }catch(error){console.warn('Zoom leave fallback',error);resetAfterLeave()}
-}
-async function join(){
-  const name=nameEl.value.trim();
-  if(!name){status('nameRequired',true);nameEl.focus();return}
-  localStorage.setItem('movement_live_name',name);
-  const button=document.getElementById('join');
-  button.disabled=true;
-  status('preparing');
-  try{
-    if(!await waitLib())throw new Error('The Zoom meeting service did not load.');
-    await loadZoomLanguage();
-    client=client||window.supabase.createClient(PF_URL,PF_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
-    const result=await client.functions.invoke('zoom-signature',{body:{}});
-    if(result.error)throw result.error;
-    const data=result.data;
-    if(!data?.success)throw new Error(data?.error||'The live meeting is not configured.');
-    ZoomMtg.setZoomJSLib('https://source.zoom.us/6.2.0/lib','/av');
-    ZoomMtg.preLoadWasm();
-    ZoomMtg.prepareWebSDK();
-    meetingSessionStarted=true;
-    document.getElementById('zmmtg-root').style.display='block';
-    document.getElementById('liveShell').style.display='none';
-    document.body.classList.add('in-meeting','meeting-session');
-    ZoomMtg.init({
-      leaveUrl:location.href.split('#')[0],
-      success:()=>ZoomMtg.join({
-        signature:data.signature,sdkKey:data.sdkKey,meetingNumber:data.meetingNumber,passWord:data.passcode||'',userName:name,userEmail:'',
-        success:()=>{joined=true;document.body.classList.add('in-meeting','meeting-session');setActive('live');status('connected')},
-        error:(error)=>{console.error(error);resetAfterLeave();status('joinError',true)}
-      }),
-      error:(error)=>{console.error(error);resetAfterLeave();status('openError',true)}
-    });
-  }catch(error){
-    console.error(error);
-    meetingSessionStarted=false;
-    document.body.classList.remove('meeting-session');
-    button.disabled=false;
-    const message=/permission/i.test(error?.message||'')?'permissionError':'connectionError';
-    status(message,true);
-  }
-}
-function cleanEmbeddedSite(){
-  try{
-    const documentInFrame=frame.contentDocument;
-    if(!documentInFrame)return;
-    const style=documentInFrame.createElement('style');
-    style.textContent='header,.desktop,#mobile,.mobile,nav,.bottom,.mobile-bottom,.bottom-nav,[class*="bottom-nav"],[class*="bottomNav"]{display:none!important}body{padding-bottom:0!important;margin-bottom:0!important}';
-    documentInFrame.head.appendChild(style);
-  }catch(error){console.warn('Could not simplify embedded content',error)}
-}
-function openSection(section){
-  if(section==='live'){restoreMeeting();return}
-  if(!meetingSessionStarted){location.href=section==='home'?'./':'./#'+section;return}
-  meetingPresentationHidden=false;
-  document.body.classList.remove('meeting-presentation-hidden');
-  panel.classList.add('open');
-  panel.setAttribute('aria-hidden','false');
-  document.body.classList.add('panel-open');
-  setActive(section);
-  setPanelTitle(section==='home'?'panelHome':section==='bible'?'panelBible':'panelGive');
-  frame.src=section==='home'?'./':'./#'+section;
-  frame.onload=()=>{
-    cleanEmbeddedSite();
-    if(section==='bible'){
-      try{frame.contentWindow.MovementChurchBible?.open()}catch(error){console.warn('Bible could not be opened in the embedded view',error)}
-    }
-  };
-}
-zoomLink.addEventListener('click',(event)=>{if(zoomLink.getAttribute('aria-disabled')==='true')event.preventDefault()});
-document.querySelectorAll('[data-site]').forEach((button)=>button.addEventListener('click',()=>openSection(button.dataset.site)));
-document.getElementById('sitePanelClose').addEventListener('click',restoreMeeting);
-document.getElementById('restoreMeeting').addEventListener('click',restoreMeeting);
-document.getElementById('hideMeeting').addEventListener('click',hideMeetingPresentation);
-document.getElementById('leaveMeeting').addEventListener('click',leaveMeeting);
-installFloatingDrag();
-document.getElementById('join').addEventListener('click',join);
-nameEl.addEventListener('keydown',(event)=>{if(event.key==='Enter')join()});
-const languageSelect=document.getElementById('lang');
-const savedLanguage=localStorage.getItem('movement_lang');
-if(savedLanguage&&messages[savedLanguage])languageSelect.value=savedLanguage;
-languageSelect.addEventListener('change',applyLanguage);
-applyLanguage();
-load();
+function setPanelTitle(key){panelTitleKey=key;const title=document.getElementById('sitePanelTitle');if(title)title.textContent=copy(key)}
+function applyLanguage(){const language=currentLanguage();document.documentElement.lang=language;localStorage.setItem('movement_lang',language);document.querySelectorAll('[data-i18n]').forEach(node=>{const key=node.dataset.i18n;if(messages[language][key])node.textContent=messages[language][key]});document.querySelectorAll('[data-i18n-placeholder]').forEach(node=>{const key=node.dataset.i18nPlaceholder;if(messages[language][key])node.placeholder=messages[language][key]});document.querySelectorAll('[data-i18n-aria-label]').forEach(node=>{const key=node.dataset.i18nAriaLabel;if(messages[language][key])node.setAttribute('aria-label',messages[language][key])});document.querySelectorAll('[data-i18n-title]').forEach(node=>{const key=node.dataset.i18nTitle;if(messages[language][key])node.title=messages[language][key]});setPanelTitle(panelTitleKey);status(activeStatus,statusEl?.classList.contains('error'))}
+async function loadZoomLanguage(){const i18n=window.ZoomMtg?.i18n;if(!i18n?.load)return;const result=i18n.load(zoomLanguage[currentLanguage()]);if(result&&typeof result.then==='function')await result}
+function setZoomFallback(url){if(url){zoomLink.href=url;zoomLink.setAttribute('aria-disabled','false')}else{zoomLink.href='#';zoomLink.setAttribute('aria-disabled','true')}}
+async function load(){try{const response=await fetch(MC_URL+'/rest/v1/movement_live_config?id=eq.1&select=zoom_join_url',{headers:{apikey:MC_KEY},cache:'no-store'});if(!response.ok)throw new Error('Live configuration unavailable');const rows=await response.json();config=rows?.[0]||null;if(!config?.zoom_join_url){setZoomFallback('');status('offline');return}setZoomFallback(config.zoom_join_url);status('ready')}catch(error){console.error(error);setZoomFallback('');status('configurationError',true)}}
+function waitLib(){return new Promise(async resolve=>{for(let attempt=0;attempt<160;attempt++){if(window.supabase?.createClient&&window.ZoomMtg)return resolve(true);await new Promise(done=>setTimeout(done,75))}resolve(false)})}
+function setActive(section){document.querySelectorAll('[data-site]').forEach(button=>{const active=button.dataset.site===section;button.classList.toggle('active',active);if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current')})}
+function closePanel(){panel.classList.remove('open');panel.setAttribute('aria-hidden','true');document.body.classList.remove('panel-open');frame.src='about:blank';setActive('live')}
+function restoreMeeting(){closePanel()}
+function markSessionActive(active){churchNav.classList.toggle('session-active',active)}
+function resetAfterLeave(){joined=false;meetingSessionStarted=false;closePanel();markSessionActive(false);document.body.classList.remove('in-meeting','meeting-session','panel-open');const root=document.getElementById('zmmtg-root');if(root){root.style.display='none';root.innerHTML=''}document.getElementById('liveShell').style.display='block';document.getElementById('join').disabled=false;status('leftMeeting')}
+function leaveMeeting(){if(!meetingSessionStarted){resetAfterLeave();return}try{if(window.ZoomMtg?.leaveMeeting){ZoomMtg.leaveMeeting({confirm:false,success:resetAfterLeave,error:()=>resetAfterLeave()});setTimeout(()=>{if(meetingSessionStarted)resetAfterLeave()},1200)}else resetAfterLeave()}catch(_){resetAfterLeave()}}
+function hideSwipeControl(){const root=document.getElementById('zmmtg-root');if(!root)return;root.querySelectorAll('*').forEach(node=>{const text=(node.textContent||'').trim().toLowerCase();if(text==='swipe controls' || text==='swipe controls ↔' || text.startsWith('swipe controls')){node.style.setProperty('display','none','important');node.classList.add('zoom-swipe-hint')}})}
+function observeZoomUi(){const root=document.getElementById('zmmtg-root');if(!root)return;const observer=new MutationObserver(()=>hideSwipeControl());observer.observe(root,{subtree:true,childList:true,characterData:true});hideSwipeControl()}
+async function join(){const name=nameEl.value.trim();if(!name){status('nameRequired',true);nameEl.focus();return}localStorage.setItem('movement_live_name',name);const button=document.getElementById('join');button.disabled=true;status('preparing');try{if(!await waitLib())throw new Error('Zoom service did not load');await loadZoomLanguage();client=client||window.supabase.createClient(PF_URL,PF_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});const result=await client.functions.invoke('zoom-signature',{body:{}});if(result.error)throw result.error;const data=result.data;if(!data?.success)throw new Error(data?.error||'LIVE not configured');ZoomMtg.setZoomJSLib('https://source.zoom.us/6.2.0/lib','/av');ZoomMtg.preLoadWasm();ZoomMtg.prepareWebSDK();meetingSessionStarted=true;markSessionActive(true);document.getElementById('zmmtg-root').style.display='block';document.getElementById('liveShell').style.display='none';document.body.classList.add('in-meeting','meeting-session');observeZoomUi();ZoomMtg.init({leaveUrl:location.href.split('#')[0],success:()=>ZoomMtg.join({signature:data.signature,sdkKey:data.sdkKey,meetingNumber:data.meetingNumber,passWord:data.passcode||'',userName:name,userEmail:'',success:()=>{joined=true;document.body.classList.add('in-meeting','meeting-session');markSessionActive(true);setActive('live');status('connected');hideSwipeControl()},error:error=>{console.error(error);resetAfterLeave();status('joinError',true)}}),error:error=>{console.error(error);resetAfterLeave();status('openError',true)}})}catch(error){console.error(error);meetingSessionStarted=false;markSessionActive(false);document.body.classList.remove('meeting-session');button.disabled=false;status(/permission/i.test(error?.message||'')?'permissionError':'connectionError',true)}}
+function cleanEmbeddedSite(){try{const doc=frame.contentDocument;if(!doc)return;const style=doc.createElement('style');style.textContent='header,.desktop,#mobile,.mobile,nav,.bottom,.mobile-bottom,.bottom-nav,[class*="bottom-nav"],[class*="bottomNav"]{display:none!important}body{padding-bottom:0!important;margin-bottom:0!important}';doc.head.appendChild(style)}catch(error){console.warn(error)}}
+function openSection(section){if(section==='live'){restoreMeeting();return}if(!meetingSessionStarted){location.href=section==='home'?'./':'./#'+section;return}panel.classList.add('open');panel.setAttribute('aria-hidden','false');document.body.classList.add('panel-open');setActive(section);setPanelTitle(section==='home'?'panelHome':section==='bible'?'panelBible':'panelGive');frame.src=section==='home'?'./':'./#'+section;frame.onload=()=>{cleanEmbeddedSite();if(section==='bible'){try{frame.contentWindow.MovementChurchBible?.open()}catch(_){}};setTimeout(hideSwipeControl,100)}}
+zoomLink.addEventListener('click',event=>{if(zoomLink.getAttribute('aria-disabled')==='true')event.preventDefault()});document.querySelectorAll('[data-site]').forEach(button=>button.addEventListener('click',()=>openSection(button.dataset.site)));document.getElementById('sitePanelClose').addEventListener('click',restoreMeeting);document.getElementById('leaveMeeting').addEventListener('click',leaveMeeting);document.getElementById('join').addEventListener('click',join);nameEl.addEventListener('keydown',event=>{if(event.key==='Enter')join()});const languageSelect=document.getElementById('lang');const savedLanguage=localStorage.getItem('movement_lang');if(savedLanguage&&messages[savedLanguage])languageSelect.value=savedLanguage;languageSelect.addEventListener('change',applyLanguage);applyLanguage();load();
 })();
 </script>
 </body>
